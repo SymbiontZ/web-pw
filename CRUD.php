@@ -23,6 +23,13 @@
         //$actualizacion = $base->exec("UPDATE libros SET paginas = '1200' WHERE titulo = 'El señor de los anillos'");
         //echo "Actualizacion exitosa<br><br>";
 
+        //Mostrar fotos de la base de datos
+        $imagen = $base->query("SELECT imagen FROM libros");
+        while($datos = $imagen->fetch())
+        {
+            echo "<img src='http://localhost/pw/".$datos['imagen']."' width='300' style='margin:10px;'><br>";
+        }
+
     }catch(Exception $e){
         die('Error: ' . $e->GetMessage());
     }finally{
