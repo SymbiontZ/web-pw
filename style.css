@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+.navbar {
+    background-color: #90EE90;
+    overflow: hidden;
+    width: 100%;
+    top: 0;
+    position: fixed;
+    z-index: 1000; /* Para asegurarse de que esté por encima de otros elementos */
+    padding: 10px 0;
+}
+
+.nav-btn {
+    background-color: #90EE90;
+    border: none;
+    color: white;
+    font-size: 20px;
+}
+
+body {
+    font-family: 'Raleway', sans-serif;
+}
+
+.raleway-regular {
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: 0;
+  }
