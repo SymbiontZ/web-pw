@@ -14,11 +14,25 @@
     background-color: #90EE90;
     border: none;
     color: white;
+    font-size: 24px;
+}
+
+#section {
+    margin-top: 20px;
     font-size: 20px;
+    padding: 10px;
+    position: sticky;
+    width: 80%;
 }
 
 body {
     font-family: 'Raleway', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+div {
+    margin-top: 20px;
 }
 
 .raleway-regular {
