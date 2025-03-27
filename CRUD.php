@@ -1,22 +1,28 @@
 <?php
+    include('clases.php');
     try{
         $base = new PDO('mysql:host=localhost;dbname=tienda_libros', 'librero', 'KMqvxADpnKSsDEOe');
         $base->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         echo "Conexion exitosa<br><br>";
 
-        //Lectura de datos
-        $lectura = $base->query('SELECT titulo, autor, paginas, fecha_pub FROM libros');
-        while($datos = $lectura->fetch())
-        {
-            echo "Titulo: " . $datos['titulo'] . " Autor: " . $datos['autor'] . " Paginas: " . $datos['paginas'] . " Fecha de publicacion: " . $datos['fecha_pub'] . "<br><br>";
-        }
-
         //Inserción de datos
-        //$insercion = $base->exec("INSERT INTO libros (categoria, titulo, autor, paginas, fecha_pub) VALUES ('2','El señor de los anillos', 'J.R.R. Tolkien', '1200', '1954-07-29')");
+        //$insercion = $base->exec("INSERT INTO libros (titulo, autor, paginas, fecha_pub) VALUES ('La historia interminable', 'Michael Ende', '400', '1979-01-01')");
         //echo "Insercion exitosa<br><br>";
 
+        //Lectura de datos
+        $sql= "SELECT * FROM Libros";
+        $stmt = $base->prepare($sql);
+        $stmt->execute();
+
+        $libros = $stmt->fetchAll(PDO::FETCH_CLASS, 'Libro');
+        //Mostramos los objetos
+        foreach($libros as $libro)
+        {
+            echo "Titulo: ".$libro['titulo']."Autor: ".$libro['autor']."Paginas: ".$libro['paginas']."Fecha de publicacion: ".$libro['fecha_pub']."<br>";
+        }
+
         //Eliminación de datos
-        //$eliminacion = $base->exec("DELETE FROM libros WHERE titulo = 'La asistenta'");
+        //$eliminacion = $base->exec("DELETE FROM libros WHERE titulo = 'La historia interminable'");
         //echo "Eliminacion exitosa<br><br>";
 
         //Actualización de datos
@@ -27,7 +33,7 @@
         $imagen = $base->query("SELECT imagen FROM libros");
         while($datos = $imagen->fetch())
         {
-            echo "<img src='http://localhost/pw/".$datos['imagen']."' width='300' style='margin:10px;'><br>";
+            echo "<img src='./data/".$datos['imagen']."' width='300' style='margin:10px;'><br>";
         }
 
     }catch(Exception $e){
