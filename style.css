@@ -41,3 +41,19 @@ div {
     font-weight: 600;
     font-style: 0;
   }
+
+.product-container {
+    width: 20%; /* Ancho del 20% para mostrar al menos 5 cuadros */
+    border: 1px solid #ddd; /* Borde del recuadro */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 15px; /* Espaciado interno */
+    margin: 10px; /* Espaciado externo */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+    background-color: #fff; /* Fondo blanco */
+    transition: transform 0.2s, box-shadow 0.2s; /* Transiciones para hover */
+}
+
+.product-container:hover {
+    transform: scale(1.02); /* Efecto de agrandamiento */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Sombra más intensa */
+}

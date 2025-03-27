@@ -1,6 +1,8 @@
 <?php
     include('src/clases.php');
 
+    define('IMAGEN_DIR', './data');
+
     function mostrar_libros($orden){
         /** @var Libro[] $lista */
         $lista = [];
@@ -15,7 +17,7 @@
                     24.99,
                     863, 
                     "1605-01-16", 
-                    "https://example.com/el-quijote", 
+                    "el-quijote.jpg", 
                     ["Clásico", "Novela"]
                 );
                 break;
@@ -26,14 +28,13 @@
         
         if(count($lista) > 0){
             foreach ($lista as $libro) {
-                echo "<div class='libro'>";
+                echo "<div class='product-container'>";
+                echo "<img src='./data/". $libro->get_url()."' width='200' style='margin:5px;'><br>";
+                echo "<hr>";
                 echo "<h3>" . htmlspecialchars($libro->get_titulo()) . "</h3>";
                 echo "<p>Autor: " . htmlspecialchars($libro->get_autor()) . "</p>";
                 echo "<p>Precio: $" . number_format($libro->get_precio(), 2) . "</p>";
-                echo "<p>Páginas: " . htmlspecialchars($libro->get_numPags()) . "</p>";
-                echo "<p>Fecha de publicación: " . htmlspecialchars($libro->get_fecha()) . "</p>";
-                echo "<p><a href='" . htmlspecialchars($libro->get_url()) . "' target='_blank'>Más información</a></p>";
-                echo "<p>Categorías: " . implode(", ", array_map('htmlspecialchars', $libro->get_categorias())) . "</p>";
+
                 echo "</div>";
             }
         }else{
