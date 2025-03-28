@@ -10,15 +10,32 @@
         //echo "Insercion exitosa<br><br>";
 
         //Lectura de datos
-        $sql= "SELECT * FROM Libros";
+        $sql = "SELECT titulo, autor, precio, paginas, fecha, imagen, GROUP_CONCAT(c.categoria) AS categorias
+                FROM libros l
+                LEFT JOIN libros_categorias lc ON l.id_libro = lc.id_libro
+                LEFT JOIN categorias c ON lc.id_categoria = c.id_categoria
+                GROUP BY l.id_libro";
         $stmt = $base->prepare($sql);
         $stmt->execute();
 
-        $libros = $stmt->fetchAll(PDO::FETCH_CLASS, 'Libro');
+        $libros = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $categorias = explode(',', $row['categorias']);     // Convierte la lista de categorías en un array
+            $libro = new Libro(
+                $row['titulo'],
+                $row['autor'],
+                $row['precio'],
+                $row['paginas'],
+                $row['fecha'],
+                $row['imagen'],
+                $categorias
+            );
+            $libros[] = $libro;
+        }
         //Mostramos los objetos
         foreach($libros as $libro)
         {
-            echo "Titulo: ".$libro['titulo']."Autor: ".$libro['autor']."Paginas: ".$libro['paginas']."Fecha de publicacion: ".$libro['fecha_pub']."<br>";
+            echo "Titulo: ".$libro->get_titulo()."<br>"." Autor: ".$libro->get_autor()."<br>"." Precio: ".$libro->get_precio()."<br>"." Paginas: ".$libro->get_numPags()."<br>"." Fecha de publicacion: "."<br>".$libro->get_fecha()."<br>"." Categoria: ".implode(',',$libro->get_categorias())."<br><br>";
         }
 
         //Eliminación de datos
