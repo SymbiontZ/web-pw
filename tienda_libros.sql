@@ -27,6 +27,8 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `categorias`
 --
 
+USE tienda_libros;
+
 CREATE TABLE `categorias` (
   `id_categoria` int(11) NOT NULL,
   `categoria` text NOT NULL

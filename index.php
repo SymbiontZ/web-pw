@@ -1,23 +1,15 @@
 <?php
-    include('src/clases.php');
+    include ('CRUD.php');
 
     define('IMAGEN_DIR', './data');
 
-    function mostrar_libros($orden){
+    function mostrar_libros($orden): void{
         /** @var Libro[] $lista */
         $lista = [];
 
         switch ($orden) {
             case 'descarga':
-                $lista[] = new Libro(
-                    "El Señor de los Anillos", 
-                    "J.R.R. Tolkien",
-                    19.99,
-                    1216, 
-                    "1954-07-29", 
-                    "el-senor-de-los-anillos.jpg", 
-                    ["Fantasía", "Aventura"]
-                );
+                $lista = devolverLibros();  
                 break;
             case 'fecha':
                 $lista[] = new Libro(
@@ -36,9 +28,8 @@
         }
         
         if(count($lista) > 0){
-            echo "<div class='products-container'>";
+            echo "<div class='product-list'>";
             foreach ($lista as $libro) {
-                echo "<div class='product-list d-flex justify-center'>";
                 echo "  <div class='product-container justify-center max-w'";
                 echo "      <a  href='https://example.com'>";
                 echo "          <img class = 'justify-center d-flex max-w' src='./data/". $libro->get_url()."' alt='".$libro->get_titulo()."-".$libro->get_autor()."'>";
@@ -51,13 +42,10 @@
                 echo "          <p>" . number_format($libro->get_precio(), 2) . "€ </p>";
                 echo "      </div>";
                 echo "  </div>";
-
-                
-                echo "</div>";
             }
             echo "</div>";
         }else{
-            echo "No hay resultados de esta busqueda :(";
+            echo "No hay resultados de esta busqueda. Intenta con otra.";
         }
 
     }
