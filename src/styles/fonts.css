@@ -1,0 +1,29 @@
+
+.size-20{
+    font-size: 20;
+}
+
+.size-24{
+    font-size: 24;
+}
+
+.size-28{
+    font-size: 28;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.no-link-style{
+    color: #222;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.raleway-regular {
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: 0;
+}

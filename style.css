@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('./src/styles/fonts.css');
 
 .navbar {
     background-color: #90EE90;
@@ -17,23 +18,15 @@
     font-size: 24px;
 }
 
-#section {
-    margin-top: 20px;
-    font-size: 20px;
-    padding: 10px;
-    position: sticky;
-    width: 80%;
-}
-
 body {
     font-family: 'Raleway', sans-serif;
     margin: 0;
     padding: 0;
 }
-
+/* 
 div {
-    margin-top: 20px;
-}
+    margin-bottom: 20px;
+} */
 
 .raleway-regular {
     font-family: "Raleway", sans-serif;
@@ -43,7 +36,7 @@ div {
   }
 
 .product-container {
-    width: 20%; /* Ancho del 20% para mostrar al menos 5 cuadros */
+    width: 10%;
     border: 1px solid #ddd; /* Borde del recuadro */
     border-radius: 5px; /* Bordes redondeados */
     padding: 15px; /* Espaciado interno */
@@ -53,7 +46,45 @@ div {
     transition: transform 0.2s, box-shadow 0.2s; /* Transiciones para hover */
 }
 
+.product-container img {
+    max-width: 100%; /* Limita el ancho de la imagen al 100% del contenedor */
+    height: auto; /* Mantiene la proporción de la imagen */
+    margin: 5px 0; /* Espaciado vertical */
+}
+
 .product-container:hover {
     transform: scale(1.02); /* Efecto de agrandamiento */
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Sombra más intensa */
+}
+
+.product-list {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten a la siguiente fila si no caben */
+    justify-content: space-between; /* Espaciado uniforme entre los elementos */
+    gap: 10px; /* Espaciado entre los elementos */
+    margin: 20px auto; /* Centra el contenedor y agrega margen superior e inferior */
+    width: 90%; /* Ajusta el ancho del contenedor */
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.align-center {
+    align-items: center;
+    text-align: center;
+}
+
+.d-flex {
+    display: flex;
+}
+    
+.max-w{
+    max-width: 100%;
+    height: auto;
+}
+
+.low-margin-v{
+    margin-top: 1px;
+    margin-bottom: 1px;
 }
