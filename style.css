@@ -8,7 +8,7 @@
     top: 0;
     position: fixed;
     z-index: 1000; /* Para asegurarse de que esté por encima de otros elementos */
-    padding: 10px 0;
+    padding: 5px 0;
 }
 
 .nav-btn {
@@ -16,6 +16,8 @@
     border: none;
     color: white;
     font-size: 24px;
+    padding: 5px;
+    margin: 10px;
 }
 
 body {
@@ -23,18 +25,12 @@ body {
     margin: 0;
     padding: 0;
 }
-/* 
-div {
+
+.section {
+    padding: 10px;
     margin-bottom: 20px;
-} */
-
-.raleway-regular {
-    font-family: "Raleway", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 600;
-    font-style: 0;
-  }
-
+    max-width: 1200px; /* Ancho máximo de la sección */
+}
 .product-container {
     width: 10%;
     border: 1px solid #ddd; /* Borde del recuadro */
@@ -60,10 +56,14 @@ div {
 .product-list {
     display: flex;
     flex-wrap: wrap; /* Permite que los elementos se ajusten a la siguiente fila si no caben */
-    justify-content: space-between; /* Espaciado uniforme entre los elementos */
     gap: 10px; /* Espaciado entre los elementos */
     margin: 20px auto; /* Centra el contenedor y agrega margen superior e inferior */
     width: 90%; /* Ajusta el ancho del contenedor */
+}
+
+.vertical-text{
+    margin: 0px, 1px;
+    padding: 5px 5px;
 }
 
 .justify-center {
@@ -72,6 +72,9 @@ div {
 
 .align-center {
     align-items: center;
+}
+
+.text-center {
     text-align: center;
 }
 
@@ -87,4 +90,8 @@ div {
 .low-margin-v{
     margin-top: 1px;
     margin-bottom: 1px;
+}
+
+.first-section{
+    margin-top: 60px;
 }
