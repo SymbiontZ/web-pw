@@ -1,5 +1,5 @@
 <?php
-    include ('CRUD.php');
+    include ('./src/CRUD.php');
 
     define('IMAGEN_DIR', './data');
 
@@ -12,15 +12,7 @@
                 $lista = devolverLibros();  
                 break;
             case 'fecha':
-                $lista[] = new Libro(
-                    "El Quijote", 
-                    "Miguel de Cervantes",
-                    24.99,
-                    863, 
-                    "1605-01-16", 
-                    "el-quijote.jpg", 
-                    ["Clásico", "Novela"]
-                );
+                $lista = devolverLibros();
                 break;
                 
             default:
