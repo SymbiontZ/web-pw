@@ -4,7 +4,7 @@ include ('./src/CRUD.php');
 
 if(isset($_GET['id_libro'])){
     $id_libro = $_GET['id_libro'];
-    $libro = obtenerLIbroPorId($id_libro);
+    $libro = obtenerLibroPorId($id_libro);
 
     if($libro){
         echo "<div class='product-container justify-center max-w'>";
