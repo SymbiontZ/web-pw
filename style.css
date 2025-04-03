@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 @import url('./src/styles/fonts.css');
+@import url('./src/styles/margins.css');
+@import url('./src/styles/palette.css');
 
 .navbar {
-    background-color: #90EE90;
     overflow: hidden;
     width: 100%;
     top: 0;
@@ -12,7 +14,6 @@
 }
 
 .nav-btn {
-    background-color: #90EE90;
     border: none;
     color: white;
     font-size: 24px;
@@ -24,28 +25,32 @@ body {
     font-family: 'Raleway', sans-serif;
     margin: 0;
     padding: 0;
+    background: #f7f7f7;
 }
 
-.section {
-    padding: 10px;
-    margin-bottom: 20px;
-    max-width: 1200px; /* Ancho máximo de la sección */
+div{
+    margin-bottom: 10px;
 }
+
+.section-title{
+    font-size: 24px;
+    margin: 5px 5px;
+    font-weight: bold;
+}
+
 .product-container {
-    width: 10%;
+    flex: 0 0 150px;
     border: 1px solid #ddd; /* Borde del recuadro */
     border-radius: 5px; /* Bordes redondeados */
-    padding: 15px; /* Espaciado interno */
+    padding: 5px 15px; /* Espaciado interno */
     margin: 10px; /* Espaciado externo */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
-    background-color: #fff; /* Fondo blanco */
     transition: transform 0.2s, box-shadow 0.2s; /* Transiciones para hover */
+    background: white;
 }
 
 .product-container img {
-    max-width: 100%; /* Limita el ancho de la imagen al 100% del contenedor */
-    height: auto; /* Mantiene la proporción de la imagen */
-    margin: 5px 0; /* Espaciado vertical */
+    margin: 10px 0; /* Espaciado vertical */
 }
 
 .product-container:hover {
@@ -53,18 +58,39 @@ body {
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Sombra más intensa */
 }
 
-.product-list {
-    display: flex;
-    flex-wrap: wrap; /* Permite que los elementos se ajusten a la siguiente fila si no caben */
-    gap: 10px; /* Espaciado entre los elementos */
-    margin: 20px auto; /* Centra el contenedor y agrega margen superior e inferior */
-    width: 90%; /* Ajusta el ancho del contenedor */
+.product-container .hover-btn {
+    position: absolute; /* Posiciona el botón dentro del contenedor */
+    bottom: 10px; /* Ajusta la posición del botón */
+    left: 7.5%; /* Centra horizontalmente */
+    width: 85%;
+    padding: 10px 15px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    opacity: 0; /* Oculta el botón inicialmente */
+    visibility: hidden; /* Asegura que no sea clickeable */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.vertical-text{
-    margin: 0px, 1px;
-    padding: 5px 5px;
+.product-container:hover .hover-btn {
+    opacity: 1; /* Muestra el botón al hacer hover */
+    visibility: visible;
 }
+
+.product-list {
+    display: flex;
+    flex-wrap: nowrap; /* Permite que los elementos se ajusten a la siguiente fila si no caben */
+    gap: 2.5px; /* Espaciado entre los elementos */
+    margin: 15px 20px; /* Centra el contenedor y agrega margen superior e inferior */
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    align-items: stretch;
+}
+
+
+
 
 .justify-center {
     justify-content: center;
@@ -76,6 +102,10 @@ body {
 
 .text-center {
     text-align: center;
+}
+
+.text-right {
+    text-align: right;
 }
 
 .d-flex {
@@ -92,6 +122,11 @@ body {
     margin-bottom: 1px;
 }
 
-.first-section{
-    margin-top: 60px;
+.text-multiline-truncate {
+    display: -webkit-box; /* Define un contenedor flexible en bloque */
+    -webkit-line-clamp: 2; /* Limita el texto a 2 líneas */
+    line-clamp: 2; /* Propiedad estándar para compatibilidad */
+    -webkit-box-orient: vertical; /* Orienta el contenedor en vertical */
+    overflow: hidden; /* Oculta el texto que excede las líneas permitidas */
+    text-overflow: ellipsis; /* Muestra puntos suspensivos (...) */
 }

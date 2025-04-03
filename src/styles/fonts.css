@@ -1,14 +1,26 @@
 
+.size-16{
+    font-size: 16px;
+}
+
+.size-14{
+    font-size: 14px;
+}
+
+.size-18{
+    font-size: 18px;
+}
+
 .size-20{
-    font-size: 20;
+    font-size: 20px;
 }
 
 .size-24{
-    font-size: 24;
+    font-size: 24px;
 }
 
 .size-28{
-    font-size: 28;
+    font-size: 28px;
 }
 
 .bold{
@@ -16,14 +28,22 @@
 }
 
 .no-link-style{
-    color: #222;
-    font-weight: bold;
     text-decoration: none;
+}
+
+.black-text{
+    color: black;
 }
 
 .raleway-regular {
     font-family: "Raleway", sans-serif;
-    font-optical-sizing: auto;
     font-weight: 600;
     font-style: 0;
 }
+
+.jetbrains-mono-regular {
+    font-family: "JetBrains Mono", monospace;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+  }
