@@ -9,8 +9,9 @@ class Libro{
     private string $imagen;
     private float $precio;
     private array $categorias;
+    private string $sinopsis;
 
-    public function __construct(int $id_libro = 0, string $titulo = '', string $autor = '',float $precio = 0.0, int $paginas = 0, string $fecha = '', string $imagen = '', array $categorias = []) {
+    public function __construct(int $id_libro = 0, string $titulo = '', string $autor = '',float $precio = 0.0, int $paginas = 0, string $fecha = '', string $imagen = '', array $categorias = [], string $sinopsis = '') {
         $this->id_libro = $id_libro;
         $this->titulo = $titulo;
         $this->autor = $autor;
@@ -19,6 +20,7 @@ class Libro{
         $this->fecha = $fecha;
         $this->imagen = $imagen;
         $this->categorias = $categorias;
+        $this->sinopsis = $sinopsis;
     }
 
     // Getters
@@ -30,6 +32,7 @@ class Libro{
     public function get_fecha(): string { return $this->fecha; }
     public function get_url(): string { return $this->imagen; }
     public function get_categorias(): array { return $this->categorias; }
+    public function get_sinopsis(): string { return $this->sinopsis; }
 
     // Setters
     public function set_id(int $id_libro): void { $this->id_libro = $id_libro; }
@@ -40,6 +43,7 @@ class Libro{
     public function set_fecha(string $fecha): void { $this->fecha = $fecha; }
     public function set_url(string $imagen): void { $this->imagen = $imagen; }
     public function set_categorias(string $categorias): void { $this->categorias = json_decode($categorias, true) ?? []; }
+    public function set_sinopsis(string $sinopsis): void { $this->sinopsis = $sinopsis; }
 }
 
 ?>
