@@ -19,7 +19,7 @@
     
     function devolverLibros(): array
     {
-        $sql = "SELECT l.id_libro, l.titulo, l.autor, l.precio, l.paginas, l.fecha, l.imagen, GROUP_CONCAT(c.categoria) AS categorias
+        $sql = "SELECT l.id_libro, l.titulo, l.autor, l.precio, l.paginas, l.fecha, l.imagen, l.sinopsis, GROUP_CONCAT(c.categoria) AS categorias
             FROM libros l
             LEFT JOIN libros_categorias lc ON l.id_libro = lc.id_libro
             LEFT JOIN categorias c ON lc.id_categoria = c.id_categoria
@@ -42,7 +42,8 @@
                 $row['paginas'],
                 $row['fecha'],
                 $row['imagen'],
-                $categorias
+                $categorias,
+                $row['sinopsis']
             );
             $libros[] = $libro;
         }
@@ -52,7 +53,7 @@
 
     function obtenerLibroPorId($id_libro)
     {
-        $sql = "SELECT l.id_libro, l.titulo, l.autor, l.precio, l.paginas, l.fecha, l.imagen, GROUP_CONCAT(c.categoria) AS categorias
+        $sql = "SELECT l.id_libro, l.titulo, l.autor, l.precio, l.paginas, l.fecha, l.imagen, l.sinopsis, GROUP_CONCAT(c.categoria) AS categorias
             FROM libros l
             LEFT JOIN libros_categorias lc ON l.id_libro = lc.id_libro
             LEFT JOIN categorias c ON lc.id_categoria = c.id_categoria
@@ -76,7 +77,8 @@
                 $row['paginas'],
                 $row['fecha'],
                 $row['imagen'],
-                $categorias
+                $categorias,
+                $row['sinopsis']
             );
         }
         return null;
