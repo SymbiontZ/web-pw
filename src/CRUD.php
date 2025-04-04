@@ -4,7 +4,7 @@
     function conectar()
     {
         try{
-            $base = new PDO('mysql:host=localhost;dbname=tienda_libros', 'librero', 'KMqvxADpnKSsDEOe');
+            $base = new PDO('mysql:host=localhost;dbname=libreria', 'librero', 'KMqvxADpnKSsDEOe');
             $base->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $base;
 
@@ -19,7 +19,7 @@
     
     function devolverLibros(): array
     {
-        $sql = "SELECT l.id_libro, l.titulo, l.autor, l.precio, l.paginas, l.fecha, l.imagen, l.sinopsis, GROUP_CONCAT(c.categoria) AS categorias
+        $sql = "SELECT l.id_libro, l.titulo, l.autor, l.precio, l.paginas, l.fecha, l.imagen, l.sinopsis, l.editorial, GROUP_CONCAT(c.categoria) AS categorias
             FROM libros l
             LEFT JOIN libros_categorias lc ON l.id_libro = lc.id_libro
             LEFT JOIN categorias c ON lc.id_categoria = c.id_categoria
@@ -43,7 +43,8 @@
                 $row['fecha'],
                 $row['imagen'],
                 $categorias,
-                $row['sinopsis']
+                $row['sinopsis'],
+                $row['editorial']
             );
             $libros[] = $libro;
         }
@@ -53,7 +54,7 @@
 
     function obtenerLibroPorId($id_libro)
     {
-        $sql = "SELECT l.id_libro, l.titulo, l.autor, l.precio, l.paginas, l.fecha, l.imagen, l.sinopsis, GROUP_CONCAT(c.categoria) AS categorias
+        $sql = "SELECT l.id_libro, l.titulo, l.autor, l.precio, l.paginas, l.fecha, l.imagen, l.sinopsis, l.editorial, GROUP_CONCAT(c.categoria) AS categorias
             FROM libros l
             LEFT JOIN libros_categorias lc ON l.id_libro = lc.id_libro
             LEFT JOIN categorias c ON lc.id_categoria = c.id_categoria
@@ -78,7 +79,8 @@
                 $row['fecha'],
                 $row['imagen'],
                 $categorias,
-                $row['sinopsis']
+                $row['sinopsis'],
+                $row['editorial']
             );
         }
         return null;

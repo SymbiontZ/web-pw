@@ -15,6 +15,7 @@ if (isset($_GET['id_libro'])) {
         echo "<p>Fecha de publicación: " . htmlspecialchars($libro->get_fecha()) . "</p>";
         echo "<p>Categorías: " . implode(', ', $libro->get_categorias()) . "</p>";
         echo "<p>Sinopsis: " . htmlspecialchars($libro->get_sinopsis()) . "</p>";
+        echo "<p>Editorial: " . htmlspecialchars($libro->get_editorial()) . "</p>";
         echo "<img src='./data/" . htmlspecialchars($libro->get_url()) . "' alt='" . htmlspecialchars($libro->get_titulo()) . "'>";
     } else {
         echo "<p>Libro no encontrado.</p>";
