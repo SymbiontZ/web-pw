@@ -15,11 +15,14 @@ if (isset($_GET['id_libro'])) {
         echo "<p>Fecha de publicación: " . htmlspecialchars($libro->get_fecha()) . "</p>";
         echo "<p>Categorías: " . implode(', ', $libro->get_categorias()) . "</p>";
         echo "<img src='./data/" . htmlspecialchars($libro->get_url()) . "' alt='" . htmlspecialchars($libro->get_titulo()) . "'>";
+        $titulo = htmlspecialchars($libro->get_titulo()) . " | " . htmlspecialchars($libro->get_autor());
     } else {
         echo "<p>Libro no encontrado.</p>";
+        $titulo = "LIBRO NO ENCONTRADO";
     }
 } else {
     echo "<p>No se especificó un libro.</p>";
+    $titulo = "LIBRO NO ENCONTRADO";
 }
 ?>
 
@@ -28,13 +31,13 @@ if (isset($_GET['id_libro'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WANNABOOK</title>
+    <title><?php echo $titulo;?></title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="navbar color-4">
-        <button href="./" class="nav-btn raleway-regular color-4">WANNABOOK</button>
+        <button href="./index.php" class="nav-btn raleway-regular color-4">WANNABOOK</button>
     </div>
 
     <div style="margin-top: 80px; padding: 0 20px;">
