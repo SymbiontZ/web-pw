@@ -61,7 +61,8 @@
 </head>
 <body>
     <div class="navbar color-4">
-        <button href="./" class="nav-btn raleway-regular color-4">WANNABOOK</button>
+        <a href="./" class="nav-btn raleway-regular color-4 no-link-style">WANNABOOK</a>
+
     </div>
 
     <div style="margin-top: 80px; padding: 0 20px;">
@@ -72,18 +73,18 @@
         <hr>
         <?php mostrar_libros('descarga'); ?>
     </div>
-    <div>
+    <div class="px-20 mt-20">
         <div class="align-center d-flex">
-            <p class="vertical-text bold size-28" >Más recientes</p>
-            <a class="vertical-text" href="./">Ver más</a>
+            <p class="section-title raleway-regular" >Más recientes</p>
+            <a class="ml-2 mt-5 no-link-style color-f-2 raleway-regular" href="./">Ver más</a>
         </div>
         <hr>
         <?php mostrar_libros('fecha'); ?>
     </div>
-    <div>
+    <div class="px-20 mt-20">
         <div class="align-center d-flex">
-            <p class="vertical-text bold size-28" >Por orden alfabético</p>
-            <a class="vertical-text" href="./">Ver más</a>
+            <p class="section-title raleway-regular" >De la A a la Z</p>
+            <a class="ml-2 mt-5 no-link-style color-f-2 raleway-regular" href="./">Ver más</a>
         </div>
         <hr>
         <?php mostrar_libros('titulo'); ?>
