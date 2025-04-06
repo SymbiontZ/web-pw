@@ -8,7 +8,7 @@ if (isset($_GET['id_libro'])) {
 
     if ($libro) {
         // Muestra los detalles del libro
-        echo "<h1>" . htmlspecialchars($libro->get_titulo()) . "</h1>";
+        echo "<br><br><br><h1>" . htmlspecialchars($libro->get_titulo()) . "</h1>";
         echo "<p>Autor: " . htmlspecialchars($libro->get_autor()) . "</p>";
         echo "<p>Precio: " . number_format($libro->get_precio(), 2) . "€</p>";
         echo "<p>Páginas: " . htmlspecialchars($libro->get_numPags()) . "</p>";
@@ -41,7 +41,6 @@ if (isset($_GET['id_libro'])) {
     <div class="navbar color-4">
         <button href="./index.php" class="nav-btn raleway-regular color-4">WANNABOOK</button>
     </div>
-
     <div style="margin-top: 80px; padding: 0 20px;">
         <div class="align-center d-flex">
             <p class="section-title raleway-regular">Más vendidos</p>

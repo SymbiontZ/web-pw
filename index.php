@@ -9,12 +9,15 @@
 
         switch ($orden) {
             case 'descarga':
-                $lista = devolverLibros();  
+                $lista = devolverLibrosDescarga();  
                 break;
             case 'fecha':
-                $lista = devolverLibros();
+                $lista = devolverLibrosFecha();
                 break;
-                
+            case 'titulo':
+                $lista = devolverLibrosAlfabeto();
+                break;
+            
             default:
                 break;
         }
@@ -76,6 +79,14 @@
         </div>
         <hr>
         <?php mostrar_libros('fecha'); ?>
+    </div>
+    <div>
+        <div class="align-center d-flex">
+            <p class="vertical-text bold size-28" >Por orden alfabético</p>
+            <a class="vertical-text" href="./">Ver más</a>
+        </div>
+        <hr>
+        <?php mostrar_libros('titulo'); ?>
     </div>
         
         
