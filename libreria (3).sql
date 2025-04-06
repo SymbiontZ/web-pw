@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-04-2025 a las 16:29:08
+-- Tiempo de generación: 06-04-2025 a las 11:28:08
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -42,6 +42,45 @@ INSERT INTO `categorias` (`id_categoria`, `categoria`) VALUES
 (3, 'Novela Negra'),
 (4, 'Novela contemporánea'),
 (5, 'Thriller');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `compras`
+--
+
+CREATE TABLE `compras` (
+  `id_libro` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `fecha` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `compras`
+--
+
+INSERT INTO `compras` (`id_libro`, `id_usuario`, `fecha`) VALUES
+(1, 2, '2022-02-27'),
+(1, 13, '2020-10-12'),
+(2, 2, '2023-06-15'),
+(3, 1, '2024-05-23'),
+(4, 1, '2024-05-23'),
+(5, 2, '2024-04-17'),
+(10, 1, '2024-05-23'),
+(10, 2, '2025-03-01'),
+(10, 4, '2008-10-16'),
+(10, 14, '2021-08-20'),
+(11, 1, '2024-05-23'),
+(12, 2, '2025-02-05'),
+(13, 3, '2023-07-20'),
+(14, 3, '2024-12-17'),
+(15, 3, '2025-03-02'),
+(16, 1, '2024-05-23'),
+(16, 2, '2025-03-15'),
+(16, 14, '2022-01-15'),
+(17, 1, '2024-05-23'),
+(17, 2, '2025-04-06'),
+(17, 14, '2022-10-19');
 
 -- --------------------------------------------------------
 
@@ -115,6 +154,31 @@ INSERT INTO `libros_categorias` (`id_libro`, `id_categoria`) VALUES
 (12, 2),
 (13, 5);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL,
+  `Usuario` varchar(20) NOT NULL,
+  `Contraseña` varchar(66) NOT NULL,
+  `Administrador` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `Usuario`, `Contraseña`, `Administrador`) VALUES
+(1, 'Mario', '$2y$10$A0nJDUUPB5uU/2djM.9KtenBxJGoYgXTNUCVd7cBlvJw/AaMxORRe', 1),
+(2, 'Julia', '$2y$10$46cN0TT4mEFAZM3zxZo9qelpG/.QY4iR0LB.ONAgMtZ/BmENdqCPe', 1),
+(3, 'Fabio', '$2y$10$TDl.GgYEg0SKB9S2X6yB6OF8p0xee7cKq0EmsNrjVDNXPa2N31.gC', 1),
+(4, 'Usuario', '$2y$10$LiMBsX7EDLup8IJTyZUVJuFZug7FpqPsEVzPkoGdK3zpztsi.tyre', 0),
+(13, 'Usuario1', '$2y$10$42roZu8oMWbYqIFD3U691ODvHVUQ/JhHMItQ7fRm4en/uw3cLnTwy', 0),
+(14, 'Usuario2', '$2y$10$KQN00b2WNs.94Nfa/pJvLuVZu7qmkaKQeRmR9tB9bOddsh1rm9VDW', 0);
+
 --
 -- Índices para tablas volcadas
 --
@@ -124,6 +188,13 @@ INSERT INTO `libros_categorias` (`id_libro`, `id_categoria`) VALUES
 --
 ALTER TABLE `categorias`
   ADD PRIMARY KEY (`id_categoria`);
+
+--
+-- Indices de la tabla `compras`
+--
+ALTER TABLE `compras`
+  ADD PRIMARY KEY (`id_libro`,`id_usuario`),
+  ADD KEY `id_usuario` (`id_usuario`);
 
 --
 -- Indices de la tabla `libros`
@@ -138,6 +209,12 @@ ALTER TABLE `libros`
 ALTER TABLE `libros_categorias`
   ADD PRIMARY KEY (`id_libro`,`id_categoria`),
   ADD KEY `id_categoria` (`id_categoria`);
+
+--
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -156,8 +233,21 @@ ALTER TABLE `libros`
   MODIFY `id_libro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `compras`
+--
+ALTER TABLE `compras`
+  ADD CONSTRAINT `compras_ibfk_1` FOREIGN KEY (`id_libro`) REFERENCES `libros` (`id_libro`),
+  ADD CONSTRAINT `compras_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
 
 --
 -- Filtros para la tabla `libros_categorias`
