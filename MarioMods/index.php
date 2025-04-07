@@ -1,14 +1,14 @@
 <?php
+    include ('./src/CRUD.php');
+
+    define('IMAGEN_DIR', './data');
+
     session_start();
     
     // Iniciar carrito si no existe
     if (!isset($_SESSION['carrito'])) {
         $_SESSION['carrito'] = [];
     }
-
-    include ('./src/CRUD.php');
-
-    define('IMAGEN_DIR', './data');
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isset($_POST['añadir_carrito'])) {
@@ -22,17 +22,23 @@
             $id = (int) $_POST['id_libro'];
             $_SESSION['carrito'] = array_filter($_SESSION['carrito'], fn($item) => $item != $id);
         }
-    
+
         if (isset($_POST['pago'])) {
-            $total = 0;
-            foreach ($_SESSION['carrito'] as $id) {
-                $libro = obtenerLibroPorId($id);
-                if ($libro) $total += $libro->get_precio();
+            if (isset($_SESSION['id_usuario'])) {
+                $usuario_id = $_SESSION['id_usuario'];
+                foreach ($_SESSION['carrito'] as $id) {
+                    registrarCompra($id, $usuario_id);
+                }
+                $_SESSION['carrito'] = []; // Vaciar el carrito
+                $_SESSION['mensaje'] = "¡Gracias por tu compra!";
+                header("Location: " . $_SERVER['PHP_SELF']); // Evita el reenvío
+                exit;
+            } else {
+                $_SESSION['mensaje'] = "Debes iniciar sesión para pagar.";
             }
-            $_SESSION['carrito'] = []; // Vaciar carrito tras pago
-            $_SESSION['mensaje'] = "Gracias por su compra. El total fue de " . number_format($total, 2) . "€.";
         }
     }
+
 
     function mostrar_libros($orden): void{
         /** @var Libro[] $lista */
@@ -40,12 +46,15 @@
 
         switch ($orden) {
             case 'descarga':
-                $lista = devolverLibros();  
+                $lista = devolverLibrosDescarga();  
                 break;
             case 'fecha':
-                $lista = devolverLibros();
+                $lista = devolverLibrosFecha();
                 break;
-                
+            case 'titulo':
+                $lista = devolverLibrosAlfabeto();
+                break;
+            
             default:
                 break;
         }
@@ -80,34 +89,54 @@
     }
 
     function mostrar_carrito(): void {
-        echo "<h2>Tu carrito</h2>";
+        echo "<h2 class='section-title raleway-regular'>Tu carrito</h2>";
+    
         if (!empty($_SESSION['carrito'])) {
             $total = 0;
+    
             foreach ($_SESSION['carrito'] as $id) {
                 $libro = obtenerLibroPorId($id);
+                if (!$libro) {
+                    echo "Libro con ID $id no encontrado";
+                    continue;
+                }
                 if ($libro) {
-                    echo "<div class='carrito-item'>";
-                    echo "<p>" . htmlspecialchars($libro->get_titulo()) . " - " . number_format($libro->get_precio(), 2) . "€</p>";
+                    echo "<div class='carrito-item d-flex align-center mb-4' style='gap: 15px;'>";
+    
+                    // Imagen de portada desde ./data/
+                    echo "<img src='" . IMAGEN_DIR . "/" . htmlspecialchars($libro->get_url()) . "' alt='" . htmlspecialchars($libro->get_titulo()) . "' style='width: 80px; height: auto; border-radius: 8px;'>";
+    
+                    // Título y precio
+                    echo "<div>";
+                    echo "<p class='raleway-regular color-f-2' style='margin: 0;'>" . htmlspecialchars($libro->get_titulo()) . "</p>";
+                    echo "<p class='raleway-regular color-f-2' style='margin: 4px 0;'>" . number_format($libro->get_precio(), 2) . "€</p>";
+    
+                    // Botón Quitar
                     echo "<form method='POST' style='display:inline'>";
                     echo "  <input type='hidden' name='id_libro' value='" . $libro->get_id() . "'>";
-                    echo "  <button type='submit' name='eliminar_carrito'>Quitar</button>";
+                    echo "  <button type='submit' name='eliminar_carrito' class='btn-quitar'>Quitar</button>";
                     echo "</form>";
-                    echo "</div>";
+                    echo "</div>"; // fin info
+    
+                    echo "</div>"; // fin carrito-item
+    
                     $total += $libro->get_precio();
                 }
             }
-            echo "<p><strong>Total: " . number_format($total, 2) . "€</strong></p>";
-            echo "<form method='POST'><button type='submit' name='pago'>Pagar</button></form>";
+    
+            // Total y botón de pago
+            echo "<p class='raleway-regular color-f-2 mt-4'><strong>Total: " . number_format($total, 2) . "€</strong></p>";
+            echo "<form method='POST'><button type='submit' name='pago' class='btn-pago'>Pagar</button></form>";
         } else {
-            echo "<p>Tu carrito está vacío.</p>";
+            echo "<p class='raleway-regular color-f-2'>Tu carrito está vacío.</p>";
         }
     
+        // Mensaje si existe
         if (isset($_SESSION['mensaje'])) {
-            echo "<p style='color: green;'>" . $_SESSION['mensaje'] . "</p>";
+            echo "<p style='color: green;' class='raleway-regular'>" . $_SESSION['mensaje'] . "</p>";
             unset($_SESSION['mensaje']);
         }
     }
-    ?>
 
 ?>
 
@@ -122,7 +151,8 @@
 </head>
 <body>
     <div class="navbar color-4">
-        <button href="./" class="nav-btn raleway-regular color-4">WANNABOOK</button>
+        <a href="./" class="nav-btn raleway-regular color-4 no-link-style">WANNABOOK</a>
+
     </div>
 
     <div style="margin-top: 80px; padding: 0 20px;">
@@ -133,19 +163,33 @@
         <hr>
         <?php mostrar_libros('descarga'); ?>
     </div>
-    <div>
+    <div class="px-20 mt-20">
         <div class="align-center d-flex">
-            <p class="vertical-text bold size-28" >Más recientes</p>
-            <a class="vertical-text" href="./">Ver más</a>
+            <p class="section-title raleway-regular" >Más recientes</p>
+            <a class="ml-2 mt-5 no-link-style color-f-2 raleway-regular" href="./">Ver más</a>
         </div>
         <hr>
         <?php mostrar_libros('fecha'); ?>
     </div>
+    <div class="px-20 mt-20">
+        <div class="align-center d-flex">
+            <p class="section-title raleway-regular" >De la A a la Z</p>
+            <a class="ml-2 mt-5 no-link-style color-f-2 raleway-regular" href="./">Ver más</a>
+        </div>
+        <hr>
+        <?php mostrar_libros('titulo'); ?>
+    </div>
+    <div class="px-20 mt-20">
+    <div class="align-center d-flex">
+        <p class="section-title raleway-regular">Tu carrito</p>
+    </div>
+    <hr>
+    <div class="raleway-regular color-f-2">
+        <?php mostrar_carrito(); ?>
+    </div>
+</div>
         
-    <div style="padding: 20px;">
-        <?php mostrar_carrito(); ?> <!-- MOVER AQUÍ -->
-    </div> 
+        
+    
 </body>
-
-</form>
 </html>

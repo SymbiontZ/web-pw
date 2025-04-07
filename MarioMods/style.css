@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import url('./src/styles/fonts.css');
+@import url('./src/styles/margins.css');
+@import url('./src/styles/palette.css');
+
+.navbar {
+    overflow: hidden;
+    width: 100%;
+    top: 0;
+    position: fixed;
+    z-index: 1000; /* Para asegurarse de que esté por encima de otros elementos */
+    padding: 5px 0;
+}
+
+.nav-btn {
+    border: none;
+    color: white;
+    font-size: 24px;
+    padding: 5px 5px;
+    margin: 10px 10px   ;
+}
+
+body {
+    font-family: 'Raleway', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f7f7f7;
+}
+
+div{
+    margin-bottom: 10px;
+}
+
+.section-title{
+    font-size: 24px;
+    margin: 5px 5px;
+    font-weight: bold;
+}
+
+.product-container {
+    flex: 0 0 150px;
+    border: 1px solid #ddd; /* Borde del recuadro */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 5px 15px; /* Espaciado interno */
+    margin: 10px; /* Espaciado externo */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+    transition: transform 0.2s, box-shadow 0.2s; /* Transiciones para hover */
+    background: white;
+}
+
+.product-container img {
+    margin: 10px 0; /* Espaciado vertical */
+}
+
+.product-container:hover {
+    transform: scale(1.02); /* Efecto de agrandamiento */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Sombra más intensa */
+}
+
+.product-container .hover-btn {
+    position: absolute; /* Posiciona el botón dentro del contenedor */
+    bottom: 10px; /* Ajusta la posición del botón */
+    left: 7.5%; /* Centra horizontalmente */
+    width: 85%;
+    padding: 10px 15px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    opacity: 0; /* Oculta el botón inicialmente */
+    visibility: hidden; /* Asegura que no sea clickeable */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.product-container:hover .hover-btn {
+    opacity: 1; /* Muestra el botón al hacer hover */
+    visibility: visible;
+}
+
+.product-list {
+    display: flex;
+    flex-wrap: nowrap; /* Permite que los elementos se ajusten a la siguiente fila si no caben */
+    gap: 2.5px; /* Espaciado entre los elementos */
+    margin: 15px 20px; /* Centra el contenedor y agrega margen superior e inferior */
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    align-items: stretch;
+}
+
+
+
+
+.justify-center {
+    justify-content: center;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.d-flex {
+    display: flex;
+}
+    
+.max-w{
+    max-width: 100%;
+    height: auto;
+}
+
+.low-margin-v{
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+.px-20{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.text-multiline-truncate {
+    display: -webkit-box; /* Define un contenedor flexible en bloque */
+    -webkit-line-clamp: 2; /* Limita el texto a 2 líneas */
+    line-clamp: 2; /* Propiedad estándar para compatibilidad */
+    -webkit-box-orient: vertical; /* Orienta el contenedor en vertical */
+    overflow: hidden; /* Oculta el texto que excede las líneas permitidas */
+    text-overflow: ellipsis; /* Muestra puntos suspensivos (...) */
+}
