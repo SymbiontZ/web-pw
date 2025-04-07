@@ -64,27 +64,98 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $conn = null;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrar Usuario</title>
+    <title>Registro - WANNABOOK</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .register-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background-color: #fff;
+        }
+
+        .register-container h1 {
+            text-align: center;
+            font-family: 'Raleway', sans-serif;
+            margin-bottom: 20px;
+        }
+
+        .register-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .register-container input[type="text"],
+        .register-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .register-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #302f4d;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .register-container button:hover {
+            background-color: #1f1e36;
+        }
+
+        .register-container a {
+            color: #302f4d;
+            text-decoration: none;
+        }
+
+        .register-container a:hover {
+            text-decoration: underline;
+        }
+
+        .error-messages {
+            margin-top: 10px;
+            color: red;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Registrar Usuario</h1>
-    <form method="post" action="">
 
-        <label for="usuario">Usuario:</label><br>
-        <input type="text" id="usuario" name="usuario" required><br><br>
+    <div class="navbar color-4">
+        <a href="./" class="nav-btn raleway-regular color-4 no-link-style">WANNABOOK</a>
+    </div>
 
-        <label for="contra">Contraseña:</label><br>
-        <input type="password" id="contra" name="contra" required><br><br>
+    <div class="register-container raleway-regular color-f-2">
+        <h1>Crear Cuenta</h1>
+        <form method="post" action="">
+            <label for="usuario">Usuario:</label>
+            <input type="text" id="usuario" name="usuario" required>
 
-        <button type="submit">Registrar</button>
-    </form>
-    <p>¿Ya tienes una cuenta? <a href="login.php">Inicia sesión aquí</a></p>
-    <?php mostrar_errores($errores); ?>
+            <label for="contra">Contraseña:</label>
+            <input type="password" id="contra" name="contra" required>
+
+            <button type="submit">Registrarse</button>
+
+            <p style="margin-top: 15px;">¿Ya tienes una cuenta? <a href="login.php">Inicia sesión aquí</a></p>
+
+            <?php mostrar_errores($errores); ?>
+        </form>
+    </div>
+
 </body>
 </html>
