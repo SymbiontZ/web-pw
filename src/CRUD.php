@@ -1,5 +1,5 @@
 <?php
-    include('./src/clases.php');
+    include(__DIR__ . '/clases.php');
 
     function conectar()
     {
@@ -15,6 +15,42 @@
         }finally{
             $base = null;   //Cierre de la conexion
         }
+    }
+
+    function devolverLibros(): array
+    {
+        $sql = "SELECT l.id_libro, l.titulo, l.autor, l.precio, l.paginas, l.fecha, l.imagen, l.sinopsis, l.editorial, GROUP_CONCAT(c.categoria) AS categorias, l.disponible
+            FROM libros l
+            LEFT JOIN libros_categorias lc ON l.id_libro = lc.id_libro
+            LEFT JOIN categorias c ON lc.id_categoria = c.id_categoria
+            GROUP BY l.id_libro";
+        $base = conectar(); // Conexión a la base de datos
+        if (!$base) {
+            return []; // Retorna un array vacío si no se pudo conectar
+        }
+        $stmt = $base->prepare($sql);
+        $stmt->execute();
+
+        $libros = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $categorias = explode(',', $row['categorias']);     // Convierte la lista de categorías en un array
+            $libro = new Libro(
+                $row['id_libro'],
+                $row['titulo'],
+                $row['autor'],
+                $row['precio'],
+                $row['paginas'],
+                $row['fecha'],
+                $row['imagen'],
+                $categorias,
+                $row['sinopsis'],
+                $row['editorial'],
+                (bool)$row['disponible']
+            );
+            $libros[] = $libro;
+        }
+
+        return $libros;
     }
     
     function devolverLibrosFecha(): array
@@ -96,7 +132,7 @@
 
     function devolverLibrosAlfabeto(): array
     {
-        $sql = "SELECT l.id_libro, l.titulo, l.autor, l.precio, l.paginas, l.fecha, l.imagen, l.sinopsis, l.editorial, GROUP_CONCAT(c.categoria) AS categorias
+        $sql = "SELECT l.id_libro, l.titulo, l.autor, l.precio, l.paginas, l.fecha, l.imagen, l.sinopsis, l.editorial, l.disponible, GROUP_CONCAT(c.categoria) AS categorias
             FROM libros l
             LEFT JOIN libros_categorias lc ON l.id_libro = lc.id_libro
             LEFT JOIN categorias c ON lc.id_categoria = c.id_categoria
@@ -113,7 +149,7 @@
 
         $libros = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $categorias = explode(',', $row['categorias']);     // Convierte la lista de categorías en un array
+            $categorias = explode(',', $row['categorias']);
             $libro = new Libro(
                 $row['id_libro'],
                 $row['titulo'],
@@ -124,7 +160,8 @@
                 $row['imagen'],
                 $categorias,
                 $row['sinopsis'],
-                $row['editorial']
+                $row['editorial'],
+                (bool)$row['disponible']
             );
             $libros[] = $libro;
         }
@@ -244,6 +281,18 @@
         return $libros;
     }
 
+    function cambiarEstadoLibro($id_libro, $estado): void
+    {
+        $sql = "UPDATE libros SET disponible = :estado WHERE id_libro = :id_libro";
+        $base = conectar(); // Conexión a la base de datos
+        if (!$base) return;
+
+        $stmt = $base->prepare($sql);
+        $stmt->bindParam(':estado', $estado, PDO::PARAM_INT);
+        $stmt->bindParam(':id_libro', $id_libro, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
     function registrarCompra(int $id_libro, int $id_usuario, int $cantidad): void {
         $base = conectar();
         if (!$base) return;
@@ -270,7 +319,7 @@
         $stmt->execute();
 
         if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            return (bool)$row['esAdmin'];
+            return (bool)$row['Administrador'];
         }
         return false;
     }
@@ -293,7 +342,7 @@
 
     function devolverUsuariosCorrientes(): array
     {
-        $sql = "SELECT Usuario, esActivo FROM usuarios WHERE Administrador = 0";
+        $sql = "SELECT id, Usuario, esActivo FROM usuarios WHERE Administrador = 0";
         $base = conectar();
         if (!$base) {
             return [];
@@ -304,11 +353,24 @@
         $usuarios = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $usuarios[] = [
+                'id' => $row['id'],
                 'usuario' => $row['Usuario'],
                 'esActivo' => (bool)$row['esActivo']
             ];
         }
 
         return $usuarios;
+    }
+
+    function cambiarEstadoUsuario($id_usuario, $estado): void
+    {
+        $sql = "UPDATE usuarios SET esActivo = :estado WHERE id = :id_usuario";
+        $base = conectar();
+        if (!$base) return;
+
+        $stmt = $base->prepare($sql);
+        $stmt->bindParam(':estado', $estado, PDO::PARAM_INT);
+        $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+        $stmt->execute();
     }
 ?>

@@ -7,31 +7,62 @@ if (!isset($_SESSION['carrito'])) {
 }
 
 include('./src/CRUD.php');
+include('./src/helpers.php');
+
+$libro = null;
 
 // Verifica si se pasa un id_libro en la URL
 if (isset($_GET['id_libro'])) {
     $id_libro = intval($_GET['id_libro']); // Sanitiza el parámetro recibido
     $libro = obtenerLibroPorId($id_libro); // Función para obtener los detalles del libro
+}
 
+function mostrar_libro($libro): void {
     if (is_object($libro)) {
-        // Muestra los detalles del libro
-        echo "<br><br><br><h1>" . htmlspecialchars($libro->get_titulo()) . "</h1>";
-        echo "<p>Autor: " . htmlspecialchars($libro->get_autor()) . "</p>";
-        echo "<p>Precio: " . number_format($libro->get_precio(), 2) . "€</p>";
-        echo "<p>Páginas: " . htmlspecialchars($libro->get_numPags()) . "</p>";
-        echo "<p>Fecha de publicación: " . htmlspecialchars($libro->get_fecha()) . "</p>";
-        echo "<p>Categorías: " . implode(', ', $libro->get_categorias()) . "</p>";
-        echo "<p>Sinopsis: " . htmlspecialchars($libro->get_sinopsis()) . "</p>";
-        echo "<p>Editorial: " . htmlspecialchars($libro->get_editorial()) . "</p>";
-        echo "<img src='./data/" . htmlspecialchars($libro->get_url()) . "' alt='" . htmlspecialchars($libro->get_titulo()) . "'>";
-        $titulo = htmlspecialchars($libro->get_titulo()) . " | " . htmlspecialchars($libro->get_autor());
+        echo '
+        <div class="book-container d-flex align-center justify-center max-w color-1" style="margin-top: 60px; margin-left: 20px; display: flex; flex-wrap: wrap;">
+            <div style="flex: 1; max-width: 25%; padding: 10px;">
+                <img src="./data/' . htmlspecialchars($libro->get_url(), ENT_QUOTES, 'UTF-8') . '" alt="' . htmlspecialchars($libro->get_titulo(), ENT_QUOTES, 'UTF-8') . '" class="max-w border-rounded shadow">
+            </div>
+            <div class="book-info" style="flex: 1; max-width: 60%; padding: 10px;">
+                <h1 class="section-title">' . htmlspecialchars($libro->get_titulo(), ENT_QUOTES, 'UTF-8') . '</h1>
+                <p><strong>Autor:</strong> ' . htmlspecialchars($libro->get_autor(), ENT_QUOTES, 'UTF-8') . '</p>
+                <p><strong>Precio:</strong> ' . number_format($libro->get_precio(), 2) . '€</p>
+                <p><strong>Páginas:</strong> ' . htmlspecialchars($libro->get_numPags(), ENT_QUOTES, 'UTF-8') . '</p>
+                <p><strong>Fecha de publicación:</strong> ' . htmlspecialchars($libro->get_fecha(), ENT_QUOTES, 'UTF-8') . '</p>
+                <p><strong>Categorías:</strong> ' . htmlspecialchars(implode(', ', $libro->get_categorias()), ENT_QUOTES, 'UTF-8') . '</p>
+                <p><strong>Editorial:</strong> ' . htmlspecialchars($libro->get_editorial(), ENT_QUOTES, 'UTF-8') . '</p>
+                <p><strong>Sinopsis:</strong> ' . htmlspecialchars($libro->get_sinopsis(), ENT_QUOTES, 'UTF-8') . '</p>
+                <form method="post" action="">
+                    <input type="hidden" name="id_libro" value="' . htmlspecialchars($libro->get_id(), ENT_QUOTES, 'UTF-8') . '">
+                    <button type="submit" name="añadir" class="color-3 book-cart-btn">
+                        <i class="fas fa-cart-plus icon" style="color: white;"></i>
+                    </button>
+                </form>
+            </div>
+        </div>';
     } else {
-        echo "<p>Libro no encontrado.</p>";
-        $titulo = "LIBRO NO ENCONTRADO";
+        echo "<p class='text-danger text-center'>Libro no encontrado.</p>";
     }
-} else {
-    echo "<p>No se especificó un libro.</p>";
-    $titulo = "LIBRO NO ENCONTRADO";
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['añadir']) && isset($_POST['id_libro'])) {
+        $id = (int) $_POST['id_libro'];
+        $encontrado = false;
+
+        foreach ($_SESSION['carrito'] as $index => $item) {
+            if ($item['id'] === $id) {
+                $_SESSION['carrito'][$index]['cantidad']++;
+                $encontrado = true;
+                break;
+            }
+        }
+
+        if (!$encontrado) {
+            $_SESSION['carrito'][] = ['id' => $id, 'cantidad' => 1];
+        }
+    }
 }
 ?>
 
@@ -40,43 +71,17 @@ if (isset($_GET['id_libro'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $titulo;?></title>
+    <title><?php echo $libro->get_titulo()." | ".$libro->get_autor();?></title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="navbar color-4 d-flex align-items-center justify-between">
-        <a href="./" class="nav-btn raleway-regular color-4 no-link-style">WANNABOOK</a>
-        <div class="nav-group d-flex align-items-center">
-            <?php if (!$_SESSION['logged_in']): ?>
-                <a href="login.php" class="nav-btn raleway-regular color-4 no-link-style">Login</a>
-            <?php else: ?>
-                <a href="perfil.php" class="nav-btn raleway-regular color-4 no-link-style">Perfil</a>
-            <?php endif; ?>
-            <a href="carrito.php" class="nav-btn raleway-regular color-4 no-link-style" style="position: relative;">
-                <i class="fas fa-shopping-cart"></i>
-                <?php 
-                $total_items = 0;
-                foreach ($_SESSION['carrito'] as $item) {
-                    $total_items += $item['cantidad'];
-                }
-                if ($total_items > 0): ?>
-                    <span style="position: absolute; top: -5px; right: -5px; background-color: red; color: white; border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; font-size: 12px;">
-                        <?php echo $total_items; ?>
-                    </span>
-                <?php endif; ?>
-            </a>
+    <?php render_navbar(); ?>
+    <div>
+        <div class="container" style="margin-top: 60px; margin-left: 20px;">
+            <?php mostrar_libro($libro); ?>
         </div>
     </div>
-
-    <div style="margin-top: 80px; padding: 0 20px;">
-        <div class="align-center d-flex">
-            <p class="section-title raleway-regular">Más vendidos</p>
-            <a class="ml-2 mt-5 no-link-style color-f-2 raleway-regular" href="./">Ver más</a>
-        </div>
-    </div>
-        
-        
     
 </body>
 </html>

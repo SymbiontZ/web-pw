@@ -12,7 +12,9 @@ class Libro{
     private string $sinopsis;
     private string $editorial;
 
-    public function __construct(int $id_libro = 0, string $titulo = '', string $autor = '',float $precio = 0.0, int $paginas = 0, string $fecha = '', string $imagen = '', array $categorias = [], string $sinopsis = '', string $editorial = '') {
+    private bool $disponible;
+
+    public function __construct(int $id_libro = 0, string $titulo = '', string $autor = '',float $precio = 0.0, int $paginas = 0, string $fecha = '', string $imagen = '', array $categorias = [], string $sinopsis = '', string $editorial = '', bool $disponible = true) {
         $this->id_libro = $id_libro;
         $this->titulo = $titulo;
         $this->autor = $autor;
@@ -23,6 +25,7 @@ class Libro{
         $this->categorias = $categorias;
         $this->sinopsis = $sinopsis;
         $this->editorial = $editorial;
+        $this->disponible= $disponible;
     }
 
     // Getters
@@ -36,6 +39,7 @@ class Libro{
     public function get_categorias(): array { return $this->categorias; }
     public function get_sinopsis(): string { return $this->sinopsis; }
     public function get_editorial(): string {return $this->editorial; }
+    public function get_disponible(): bool { return $this->disponible; }
 
     // Setters
     public function set_id(int $id_libro): void { $this->id_libro = $id_libro; }
@@ -48,6 +52,7 @@ class Libro{
     public function set_categorias(string $categorias): void { $this->categorias = json_decode($categorias, true) ?? []; }
     public function set_sinopsis(string $sinopsis): void { $this->sinopsis = $sinopsis; }
     public function set_editorial(string $editorial): void { $this->editorial = $editorial; }
+    public function set_disponible(bool $disponible): void { $this->disponible = $disponible; }
 }
 
 

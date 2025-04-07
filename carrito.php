@@ -86,7 +86,6 @@ if (isset($_POST['pago'])) {
         }
         $_SESSION['carrito'] = []; // Vaciar el carrito
         header("Location: " . $_SERVER['PHP_SELF']); // Evita el reenvío
-        mostrarMensaje("Compra realizada con éxito", true);
         exit;
     } else {
         $errores[] = "Debes iniciar sesión para pagar.";

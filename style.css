@@ -159,3 +159,60 @@ body {
     overflow: hidden; /* Oculta el texto que excede las líneas permitidas */
     text-overflow: ellipsis; /* Muestra puntos suspensivos (...) */
 }
+
+.search-input {
+    border: 1px solid #ccc;
+    border-radius: 10px; /* Bordes medio redondeados */
+    padding: 8px 12px;
+    font-size: 14px;
+    width: 250px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: #5f1854; 
+}
+
+.search-btn {
+    color: white;
+    border: none;
+    border-radius: 10px; /* Bordes medio redondeados */
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.search-btn:hover {
+    background-color: #5f1854;
+}
+
+.book-container {
+    flex-wrap: wrap; 
+    gap: 20px;  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-radius: 5px; /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+    background-color: white; /* Fondo blanco */
+}
+.book-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px; /* Bordes redondeados para la imagen */
+}
+
+.book-cart-btn {
+    width: 100%;
+    background-color: #5f1854; /* Color de fondo del botón */
+    color: white; /* Color del texto del botón */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    font-size: 16px; /* Tamaño de fuente */
+    transition: background-color 0.3s ease; /* Transición suave para el color de fondo */
+}

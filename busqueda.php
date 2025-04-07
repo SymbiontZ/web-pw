@@ -12,15 +12,20 @@ if (!isset($_SESSION['usuario'])) {
 }
 
 include ('./src/CRUD.php');
+include ('./src/helpers.php');
 define('IMAGEN_DIR', './data');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['busqueda'])) {
         $busqueda = $_POST['busqueda'];
-        $libros = buscarLibros($busqueda);
+        $_SESSION['busqueda'] = $busqueda; //Almacenar la búsqueda en la sesión
     } else {
-        $libros = []; // Inicializar como vacío si no hay búsqueda
+        $busqueda = $_SESSION['busqueda'] ?? ''; //Usar la búsqueda almacenada en la sesión como backup
     }
+    $libros = buscarLibros($busqueda);
+} else {
+    $busqueda = $_SESSION['busqueda'] ?? ''; //Almacenar la búsqueda en la sesión
+    $libros = [];
 }
 
 function mostrar_libros($libros): void {
@@ -28,19 +33,46 @@ function mostrar_libros($libros): void {
         echo "<div class='product-list'>";
         foreach ($libros as $libro) {
             echo "  <div class='product-container justify-center max-w color-1'>";
-            echo "      <img src='" . IMAGEN_DIR . "/" . htmlspecialchars($libro->get_url()) . "' alt='" . htmlspecialchars($libro->get_titulo()) . "' style='width: 100%; height: auto; border-radius: 8px;'>";
-            echo "      <h2>" . htmlspecialchars($libro->get_titulo()) . "</h2>";
-            echo "      <p>" . htmlspecialchars($libro->get_autor()) . "</p>";
-            echo "      <p>" . number_format($libro->get_precio(), 2) . "€</p>";
-            echo "      <form method='POST' action=''>";
-            echo "          <input type='hidden' name='id_libro' value='" . $libro->get_id() . "'>";
-            echo "          <button type='submit' name='añadir_carrito' class='btn-add'>Añadir al carrito</button>";
-            echo "      </form>";
+            echo "      <a href='detalles.php?id_libro=" . htmlspecialchars($libro->get_id()) . "'>";
+            echo "          <img class = 'justify-center d-flex max-w' src='./data/". $libro->get_url()."' alt='".$libro->get_titulo()."-".$libro->get_autor()."'>";
+            echo "      </a>";
+            echo "      <hr>";
+            
+            echo "      <div>";
+            echo "          <a class='size-18 bold black-text no-link-style text-multiline-truncate' href='https://example.com'>" . htmlspecialchars(strtoupper($libro->get_titulo())) . "</a>";
+            echo "          <p class='size-14 low-margin-v'>" . htmlspecialchars($libro->get_autor()) . "</p>";
+            echo "          <p class='size-16 bold text-right mt-20 mb-1'>" . number_format($libro->get_precio(), 2) . "€ </p>";
+            echo "          <form method='post' action=''>";
+            echo "              <input type='hidden' name='id_libro' value='" . htmlspecialchars($libro->get_id()) . "'>";
+            echo "              <button type='submit' name='añadir' class='hover-btn jetbrains-mono-regular color-3'>";
+            echo "                  <i class='fas fa-cart-plus icon'></i>";
+            echo "              </button>";
+            echo "          </form>";
+            echo "      </div>";
             echo "  </div>";
         }
         echo "</div>";
     } else {
         echo "<p>No se encontraron resultados.</p>";
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['añadir']) && isset($_POST['id_libro'])) {
+        $id = (int) $_POST['id_libro'];
+        $encontrado = false;
+
+        foreach ($_SESSION['carrito'] as $index => $item) {
+            if ($item['id'] === $id) {
+                $_SESSION['carrito'][$index]['cantidad']++;
+                $encontrado = true;
+                break;
+            }
+        }
+
+        if (!$encontrado) {
+            $_SESSION['carrito'][] = ['id' => $id, 'cantidad' => 1];
+        }
     }
 }
 
@@ -56,37 +88,7 @@ function mostrar_libros($libros): void {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="navbar color-4 d-flex align-center justify-between">
-        <div class="nav-left">
-            <a href="./" class="nav-btn raleway-regular color-4 no-link-style">WANNABOOK</a>
-        </div>
-        <div class="nav-center">
-            <form method="POST" action="">
-                <input type="text" name="busqueda" placeholder="Buscar..." class="search-input">
-                <button type="submit" name="buscar" class="search-btn"><i class="fas fa-search"></i></button>
-            </form>
-        </div>
-        <div class="nav-right">
-            <?php if (!$_SESSION['logged_in']): ?>
-                <a href="login.php" class="nav-btn raleway-regular color-4 no-link-style">Login</a>
-            <?php else: ?>
-                <a href="perfil.php" class="nav-btn raleway-regular color-4 no-link-style">Perfil</a>
-            <?php endif; ?>
-            <a href="carrito.php" class="nav-btn raleway-regular color-4 no-link-style" style="position: relative;">
-                <i class="fas fa-shopping-cart"></i>
-                <?php 
-                $total_items = 0;
-                foreach ($_SESSION['carrito'] as $item) {
-                    $total_items += $item['cantidad'];
-                }
-                if ($total_items > 0): ?>
-                    <span style="position: absolute; top: -5px; right: -5px; background-color: red; color: white; border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; font-size: 12px;">
-                        <?php echo $total_items; ?>
-                    </span>
-                <?php endif; ?>
-            </a>
-        </div>
-    </div>
+    <?php render_navbar(); ?>
 
     <div style="margin-top: 80px; padding: 0 20px;">
         <h1>Resultados de la búsqueda para "<?php echo htmlspecialchars($busqueda); ?>"</h1>
@@ -97,3 +99,4 @@ function mostrar_libros($libros): void {
         <?php endif; ?>
     </div>      
 </body>
+</html>
