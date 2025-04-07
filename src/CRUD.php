@@ -206,4 +206,109 @@
         return null;
     }
 
+    function buscarLibros($busqueda): array
+    {
+        $sql = "SELECT l.id_libro, l.titulo, l.autor, l.precio, l.paginas, l.fecha, l.imagen, l.sinopsis, l.editorial, GROUP_CONCAT(c.categoria) AS categorias
+            FROM libros l
+            LEFT JOIN libros_categorias lc ON l.id_libro = lc.id_libro
+            LEFT JOIN categorias c ON lc.id_categoria = c.id_categoria
+            WHERE (l.titulo LIKE :busqueda OR l.autor LIKE :busqueda OR l.editorial LIKE :busqueda) AND l.disponible = 1
+            GROUP BY l.id_libro";
+        $base = conectar(); // Conexión a la base de datos
+        if (!$base) {
+            return []; // Retorna un array vacío si no se pudo conectar
+        }
+        $stmt = $base->prepare($sql);
+        $busqueda_param = '%' . $busqueda . '%';
+        $stmt->bindParam(':busqueda', $busqueda_param, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $libros = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $categorias = explode(',', $row['categorias']);     // Convierte la lista de categorías en un array
+            $libro = new Libro(
+                $row['id_libro'],
+                $row['titulo'],
+                $row['autor'],
+                $row['precio'],
+                $row['paginas'],
+                $row['fecha'],
+                $row['imagen'],
+                $categorias,
+                $row['sinopsis'],
+                $row['editorial']
+            );
+            $libros[] = $libro;
+        }
+
+        return $libros;
+    }
+
+    function registrarCompra(int $id_libro, int $id_usuario, int $cantidad): void {
+        $base = conectar();
+        if (!$base) return;
+    
+        $sql = "INSERT INTO compras (id_libro, id_usuario, fecha, cantidad) VALUES (:id_libro, :id_usuario, NOW(), :cantidad)";
+        $stmt = $base->prepare($sql);
+        $stmt->bindParam(':id_libro', $id_libro, PDO::PARAM_INT);
+        $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+        $stmt->bindParam(':cantidad', $cantidad, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
+    /*** USERS ***/
+
+    function isAdmin($nombre): bool
+    {
+        $sql = "SELECT Administrador FROM usuarios WHERE Usuario = :usuario";
+        $base = conectar(); // Conexión a la base de datos
+        if (!$base) {
+            return false; // Retorna false si no se pudo conectar
+        }
+        $stmt = $base->prepare($sql);
+        $stmt->bindParam(':usuario', $nombre, PDO::PARAM_STR);
+        $stmt->execute();
+
+        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            return (bool)$row['esAdmin'];
+        }
+        return false;
+    }
+    function devolverIdPorNombre($nombre): ?int
+    {
+        $sql = "SELECT id FROM usuarios WHERE Usuario = :usuario";
+        $base = conectar(); // Conexión a la base de datos
+        if (!$base) {
+            return null; // Retorna null si no se pudo conectar
+        }
+        $stmt = $base->prepare($sql);
+        $stmt->bindParam(':usuario', $nombre, PDO::PARAM_STR);
+        $stmt->execute();
+
+        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            return (int)$row['id'];
+        }
+        return null;
+    }
+
+    function devolverUsuariosCorrientes(): array
+    {
+        $sql = "SELECT Usuario, esActivo FROM usuarios WHERE Administrador = 0";
+        $base = conectar();
+        if (!$base) {
+            return [];
+        }
+        $stmt = $base->prepare($sql);
+        $stmt->execute();
+
+        $usuarios = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $usuarios[] = [
+                'usuario' => $row['Usuario'],
+                'esActivo' => (bool)$row['esActivo']
+            ];
+        }
+
+        return $usuarios;
+    }
 ?>

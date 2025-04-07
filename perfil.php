@@ -13,6 +13,12 @@ if (isset($_POST['logout'])) {
     exit;
 }
 
+if (isset($_GET['debug']) && $_GET['debug'] === 'true') {
+    echo '<pre>';
+    print_r($_SESSION);
+    echo '</pre>';
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -26,9 +32,9 @@ if (isset($_POST['logout'])) {
     
 </head>
 <body>
-<div class="navbar color-4 d-flex align-items-center justify-between">
+    <div class="navbar color-4 d-flex align-center justify-between">
         <a href="./" class="nav-btn raleway-regular color-4 no-link-style">WANNABOOK</a>
-        <div class="nav-group d-flex align-items-center">
+        <div class="nav-group d-flex align-center justi">
             <?php if (!$_SESSION['logged_in']): ?>
                 <a href="login.php" class="nav-btn raleway-regular color-4 no-link-style">Login</a>
             <?php else: ?>
@@ -53,6 +59,7 @@ if (isset($_POST['logout'])) {
     <div class="container">
         <h1>Perfil de Usuario</h1>
         <p><strong>Nombre de usuario:</strong> <?php echo htmlspecialchars($usuario); ?></p>
+        <a href="./admin/usuarios.php" class="btn">Administrar Usuarios</a>
         <form method="post" action="">
             <button type="submit" name="logout" class="btn">Cerrar sesión</button>
         </form>

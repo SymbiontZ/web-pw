@@ -50,4 +50,6 @@ class Libro{
     public function set_editorial(string $editorial): void { $this->editorial = $editorial; }
 }
 
+
+
 ?>

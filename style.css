@@ -10,7 +10,26 @@
     top: 0;
     position: fixed;
     z-index: 1000; /* Para asegurarse de que esté por encima de otros elementos */
-    padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.nav-left {
+    flex: 1;
+    text-align: left;
+}
+
+.nav-center {
+    flex: 1;
+    text-align: center;
+}
+
+.nav-right {
+    flex: 1;
+    text-align: right;
+    padding-right: 25px;
 }
 
 .nav-btn {
@@ -18,7 +37,7 @@
     color: white;
     font-size: 24px;
     padding: 5px 5px;
-    margin: 10px 10px   ;
+    margin: 5px 10px   ;
 }
 
 body {
@@ -28,9 +47,6 @@ body {
     background: #f7f7f7;
 }
 
-div{
-    margin-bottom: 10px;
-}
 
 .section-title{
     font-size: 24px;
@@ -98,6 +114,14 @@ div{
 
 .align-center {
     align-items: center;
+}
+
+.align-left {
+    align-items: left;
+}
+
+.align-right {
+    align-items: right;
 }
 
 .text-center {

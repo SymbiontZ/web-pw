@@ -5,8 +5,13 @@ if (!isset($_SESSION['carrito'])) {
     $_SESSION['carrito'] = array();
 }
 
-include ('./src/CRUD.php');
 
+include ('./src/CRUD.php');
+include ('./src/helpers.php');
+
+define('IMAGEN_DIR', './data');
+
+$errores = [];
 // Ejemplo de productos en el carrito (puedes reemplazarlo con datos reales)
 
 function calcularTotal($carrito) {
@@ -18,33 +23,76 @@ function calcularTotal($carrito) {
     return $total;
 }
 
-function mostrarCarrito($carrito) {
-    if (!empty($carrito)) {
-        foreach ($carrito as $item) {
-            $libro = obtenerLibroPorId($item['id']); // Asumiendo que tienes una función para obtener el libro por ID
-            echo '<tr>';
-            echo '<td>' . htmlspecialchars($libro->get_titulo()) . '</td>';
-            echo '<td>' . htmlspecialchars($item['cantidad']) . '</td>';
-            echo '<td>$' . number_format($libro->get_precio(), 2) . '</td>';
-            echo '<td>';
-            echo '  <form method="post" action="">';
-            echo '      <input type="hidden" name="id_libro" value="' . htmlspecialchars($item['id']) . '">';
-            echo '      <button type="submit" name="eliminar">Eliminar</button>';
-            echo '  </form>';
-            echo '</td>';
-            echo '</tr>';
+function mostrar_carrito(): void {
+    echo "<h2 class='section-title raleway-regular'>Tu carrito</h2>";
+
+    if (!empty($_SESSION['carrito'])) {
+        $total = 0;
+
+        foreach ($_SESSION['carrito'] as $item) {
+            $libro = obtenerLibroPorId($item['id']);
+            if (!$libro) {
+                echo "Libro con ID {$item['id']} no encontrado";
+                continue;
+            }
+
+            echo "<div class='carrito-item d-flex align-center mb-4' style='gap: 15px;'>";
+
+            // Imagen de portada desde ./data/
+            echo "<img src='" . IMAGEN_DIR . "/" . htmlspecialchars($libro->get_url()) . "' alt='" . htmlspecialchars($libro->get_titulo()) . "' style='width: 80px; height: auto; border-radius: 8px;'>";
+
+            // Título, cantidad y precio
+            echo "<div>";
+            echo "<p class='raleway-regular color-f-2' style='margin: 0;'>" . htmlspecialchars($libro->get_titulo());
+            if ($item['cantidad'] > 1) {
+                echo " <span class='cantidad'>(x" . $item['cantidad'] . ")</span>";
+            }
+            echo "</p>";
+            echo "<p class='raleway-regular color-f-2' style='margin: 4px 0;'>" . number_format($libro->get_precio(), 2) . "€</p>";
+
+            // Botón Quitar
+            echo "<form method='POST' style='display:inline'>";
+            echo "  <input type='hidden' name='id_libro' value='" . $libro->get_id() . "'>";
+            echo "  <button type='submit' name='eliminar' class='btn-quitar'>Quitar</button>";
+            echo "</form>";
+            echo "</div>"; // fin info
+
+            echo "</div>"; // fin carrito-item
+
+            $total += $item['cantidad'] * $libro->get_precio();
         }
+
+        // Total y botón de pago
+        echo "<p class='raleway-regular color-f-2 mt-4'><strong>Total: " . number_format($total, 2) . "€</strong></p>";
+        echo "<form method='POST'><button type='submit' name='pago' class='btn-pago'>Pagar</button></form>";
     } else {
-        echo '<tr>';
-        echo '<td colspan="5">El carrito está vacío.</td>';
-        echo '</tr>';
+        echo "<p class='raleway-regular color-f-2'>Tu carrito está vacío.</p>";
     }
+
 }
 
 
 if (isset($_POST['eliminar'])) {
     $id = (int) $_POST['id_libro'];
     $_SESSION['carrito'] = array_filter($_SESSION['carrito'], fn($item) => $item['id'] !== $id);
+}
+
+
+if (isset($_POST['pago'])) {
+    if (isset($_SESSION['usuario'])) {
+        $usuario = devolverIdPorNombre($_SESSION['usuario']);
+        foreach ($_SESSION['carrito'] as $item) {
+            registrarCompra($item['id'], $usuario, $item['cantidad']); // Asumiendo que tienes una función para registrar la compra
+        }
+        $_SESSION['carrito'] = []; // Vaciar el carrito
+        header("Location: " . $_SERVER['PHP_SELF']); // Evita el reenvío
+        mostrarMensaje("Compra realizada con éxito", true);
+        exit;
+    } else {
+        $errores[] = "Debes iniciar sesión para pagar.";
+        header("Location: login.php");
+
+    }
 }
 
 ?>
@@ -59,53 +107,14 @@ if (isset($_POST['eliminar'])) {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="navbar color-4 d-flex align-items-center justify-between">
-        <a href="./" class="nav-btn raleway-regular color-4 no-link-style">WANNABOOK</a>
-        <div class="nav-group d-flex align-items-center">
-            <?php if (!$_SESSION['logged_in']): ?>
-                <a href="login.php" class="nav-btn raleway-regular color-4 no-link-style">Login</a>
-            <?php else: ?>
-                <a href="perfil.php" class="nav-btn raleway-regular color-4 no-link-style">Perfil</a>
-            <?php endif; ?>
-            <a href="carrito.php" class="nav-btn raleway-regular color-4 no-link-style" style="position: relative;">
-                <i class="fas fa-shopping-cart"></i>
-                <?php 
-                $total_items = 0;
-                foreach ($_SESSION['carrito'] as $item) {
-                    $total_items += $item['cantidad'];
-                }
-                if ($total_items > 0): ?>
-                    <span style="position: absolute; top: -5px; right: -5px; background-color: red; color: white; border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; font-size: 12px;">
-                        <?php echo $total_items; ?>
-                    </span>
-                <?php endif; ?>
-            </a>
-        </div>
-    </div>
+    <?php render_navbar(); ?>
 
-    <header>
+    <header style="margin-top: 60px;">
         <h1>Carrito de Compras</h1>
     </header>
     <main>
-        <section id="cart" style="margin-top: 65px;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Precio</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php mostrarCarrito($_SESSION['carrito']); ?>
-                </tbody>
-            </table>
-        </section>
-        <section id="summary">
-            <h2>Resumen</h2>
-            <p>Total: <span id="total-price">$<?php echo number_format(calcularTotal($_SESSION['carrito']), 2); ?></span></p>
-            <button id="checkout-button">Finalizar Compra</button>
+        <section id="cart" style="margin-top: 65px; margin-left: 20px;">
+            <?php mostrar_carrito(); ?>
         </section>
     </main>
 </body>

@@ -13,6 +13,7 @@
     }
 
     include ('./src/CRUD.php');
+    include ('./src/helpers.php');
 
     define('IMAGEN_DIR', './data');
 
@@ -94,29 +95,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="navbar color-4 d-flex align-items-center justify-between">
-        <a href="./" class="nav-btn raleway-regular color-4 no-link-style">WANNABOOK</a>
-        <div class="nav-group d-flex align-items-center">
-            <?php if (!$_SESSION['logged_in']): ?>
-                <a href="login.php" class="nav-btn raleway-regular color-4 no-link-style">Login</a>
-            <?php else: ?>
-                <a href="perfil.php" class="nav-btn raleway-regular color-4 no-link-style">Perfil</a>
-            <?php endif; ?>
-            <a href="carrito.php" class="nav-btn raleway-regular color-4 no-link-style" style="position: relative;">
-                <i class="fas fa-shopping-cart"></i>
-                <?php 
-                $total_items = 0;
-                foreach ($_SESSION['carrito'] as $item) {
-                    $total_items += $item['cantidad'];
-                }
-                if ($total_items > 0): ?>
-                    <span style="position: absolute; top: -5px; right: -5px; background-color: red; color: white; border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; font-size: 12px;">
-                        <?php echo $total_items; ?>
-                    </span>
-                <?php endif; ?>
-            </a>
-        </div>
-    </div>
+    <?php render_navbar(); ?>
 
     <div style="margin-top: 80px; padding: 0 20px;">
         <div class="align-center d-flex">
