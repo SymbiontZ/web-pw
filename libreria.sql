@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-04-2025 a las 19:34:18
+-- Tiempo de generación: 07-04-2025 a las 22:13:56
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -52,35 +52,41 @@ INSERT INTO `categorias` (`id_categoria`, `categoria`) VALUES
 CREATE TABLE `compras` (
   `id_libro` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
-  `fecha` date NOT NULL
+  `fecha` date NOT NULL,
+  `cantidad` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `compras`
 --
 
-INSERT INTO `compras` (`id_libro`, `id_usuario`, `fecha`) VALUES
-(1, 2, '2022-02-27'),
-(1, 13, '2020-10-12'),
-(2, 2, '2023-06-15'),
-(3, 1, '2024-05-23'),
-(4, 1, '2024-05-23'),
-(5, 2, '2024-04-17'),
-(10, 1, '2024-05-23'),
-(10, 2, '2025-03-01'),
-(10, 4, '2008-10-16'),
-(10, 14, '2021-08-20'),
-(11, 1, '2024-05-23'),
-(12, 2, '2025-02-05'),
-(13, 3, '2023-07-20'),
-(14, 3, '2024-12-17'),
-(15, 3, '2025-03-02'),
-(16, 1, '2024-05-23'),
-(16, 2, '2025-03-15'),
-(16, 14, '2022-01-15'),
-(17, 1, '2024-05-23'),
-(17, 2, '2025-04-06'),
-(17, 14, '2022-10-19');
+INSERT INTO `compras` (`id_libro`, `id_usuario`, `fecha`, `cantidad`) VALUES
+(1, 2, '2022-02-27', 1),
+(1, 3, '2025-04-07', 2),
+(1, 13, '2020-10-12', 1),
+(2, 2, '2023-06-15', 1),
+(2, 3, '2025-04-07', 2),
+(3, 1, '2024-05-23', 1),
+(4, 1, '2024-05-23', 1),
+(4, 3, '2025-04-07', 2),
+(5, 2, '2024-04-17', 1),
+(5, 3, '2025-04-07', 1),
+(10, 1, '2024-05-23', 1),
+(10, 2, '2025-03-01', 1),
+(10, 3, '2025-04-07', 2),
+(10, 4, '2008-10-16', 1),
+(10, 14, '2021-08-20', 1),
+(11, 1, '2024-05-23', 1),
+(12, 2, '2025-02-05', 1),
+(13, 3, '2023-07-20', 1),
+(14, 3, '2024-12-17', 1),
+(15, 3, '2025-03-02', 1),
+(16, 1, '2024-05-23', 1),
+(16, 2, '2025-03-15', 1),
+(16, 14, '2022-01-15', 1),
+(17, 1, '2024-05-23', 1),
+(17, 2, '2025-04-06', 1),
+(17, 14, '2022-10-19', 1);
 
 -- --------------------------------------------------------
 
@@ -107,7 +113,7 @@ CREATE TABLE `libros` (
 --
 
 INSERT INTO `libros` (`id_libro`, `titulo`, `autor`, `precio`, `paginas`, `fecha`, `categorias`, `editorial`, `sinopsis`, `imagen`, `disponible`) VALUES
-(1, 'Hábitos atómicos', 'James Clear', 23.9, 328, '2018-10-16', 'Autoayuda', 'Diana Editorial', 'A menudo pensamos que para cambiar de vida tenemos que pensar en hacer cambios grandes. Nada más lejos de la realidad. Según el reconocido experto en hábitos James Clear, el cambio real proviene del resultado de cientos de pequeñas decisiones: hacer dos flexiones al día, levantarse cinco minutos antes o hacer una corta llamada telefónica. Clear llama a estas decisiones “hábitos atómicos”: tan pequeños como una partícula, pero tan poderosos como un tsunami. En este libro innovador nos revela exactamente cómo esos cambios minúsculos pueden crecer hasta llegar a cambiar nuestra carrera profesional, nuestras relaciones y todos los aspectos de nuestra vida.', 'HabitosAtomicos.jpg', 1),
+(1, 'Hábitos atómicos', 'James Clear', 23.9, 328, '2018-10-16', 'Autoayuda', 'Diana Editorial', 'A menudo pensamos que para cambiar de vida tenemos que pensar en hacer cambios grandes. Nada más lejos de la realidad. Según el reconocido experto en hábitos James Clear, el cambio real proviene del resultado de cientos de pequeñas decisiones: hacer dos flexiones al día, levantarse cinco minutos antes o hacer una corta llamada telefónica. Clear llama a estas decisiones “hábitos atómicos”: tan pequeños como una partícula, pero tan poderosos como un tsunami. En este libro innovador nos revela exactamente cómo esos cambios minúsculos pueden crecer hasta llegar a cambiar nuestra carrera profesional, nuestras relaciones y todos los aspectos de nuestra vida.', 'HabitosAtomicos.jpg', 0),
 (2, 'Alas de Sangre (Empíreo 1)', 'Rebeca Yarros', 26.9, 736, '2023-04-05', 'Novela de fantasía', 'Editorial Planeta', 'Violet Sorrengail creía que se uniría al Cuadrante de los Escribas para vivir una vida tranquila, sin embargo, por órdenes de su madre, debe unirse a los miles de candidatos que, en el Colegio de Guerra de Basgiath, luchan por formar parte de la élite de Navarre: el Cuadrante de los Jinetes de dragón. Cuando eres más pequeña y frágil que los demás tu vida corre peligro, porque los dragones no se vinculan con humanos débiles. Además, con más jinetes que dragones disponibles, muchos la matarían con tal de mejorar sus probabilidades de éxito; y hay otros, como el despiadado Xaden Riorson, el líder de ala más poderoso del Cuadrante de Jinetes, que la asesinarían simplemente por ser la hija de la comandante general. Para sobrevivir, necesitará aprovechar al máximo todo su ingenio. Mientras la guerra se torna más letal Violet sospecha que los líderes de Navarre esconden un terrible secreto...', 'AlasSangre1.jpg', 1),
 (3, 'Un animal salvaje', 'Joël Dicker', 23.9, 448, '2024-04-04', 'Novela Negra', 'Alfaguara', 'El 2 de julio de 2022, dos delincuentes se disponen a robar en una importante joyería de Ginebra. Un incidente que dista mucho de ser un vulgar atraco. Veinte días antes, en una lujosa urbanización a orillas del lago Lemán, Sophie Braun se prepara para celebrar su cuadragésimo cumpleaños. La vida le sonríe: vive con su familia en una mansión rodeada de bosques, pero su idílico mundo está a punto de tambalearse. Su marido anda enredado en sus pequeños secretos. Su vecino, un policía de reputación irreprochable, se ha obsesionado con ella y la espía hasta en los detalles más íntimos. Y un misterioso merodeador le hace un regalo que pone su vida en peligro. Serán necesarios varios viajes al pasado, lejos de Ginebra, para hallar el origen de esta intriga diabólica de la que nadie saldrá indemne.', 'AnimalSalvaje.jpg', 1),
 (4, 'La grieta del silencio', 'Javier Castillo', 12.95, 448, '2024-04-16', 'Novela contemporánea', 'Suma', 'Staten Island, 1981. La bicicleta de Daniel Miller aparece abandonada en las inmediaciones de su casa. No hay rastro del pequeño. Treinta años después, en 2011, la periodista de investigación del Manhattan Press Miren Triggs sigue una pista que la conduce hasta el terrible hallazgo de un cadáver con los labios sellados.Miren Triggs y Jim Schmoer, su antiguo profesor de periodismo, tratarán de descubrir qué vincula ambos casos mientras ayudan a Ben Miller, padre de Daniel y ex inspector del FBI, a reconstruir por última vez la desaparición de su hijo. Se adentrarán así en las profundidades de un enigma lleno de recovecos en los que resuenan las voces del pasado. ¿Qué le sucedió a Daniel? ¿Quién se esconde tras el horrible asesinato? ¿Puede el silencio ser el refugio de la verdad?', 'GrietaDelSilencio.jpg', 1),
@@ -178,8 +184,9 @@ INSERT INTO `usuarios` (`id`, `Usuario`, `Contraseña`, `Administrador`, `esActi
 (2, 'Julia', '$2y$10$46cN0TT4mEFAZM3zxZo9qelpG/.QY4iR0LB.ONAgMtZ/BmENdqCPe', 1, 1),
 (3, 'Fabio', '$2y$10$TDl.GgYEg0SKB9S2X6yB6OF8p0xee7cKq0EmsNrjVDNXPa2N31.gC', 1, 1),
 (4, 'Usuario', '$2y$10$LiMBsX7EDLup8IJTyZUVJuFZug7FpqPsEVzPkoGdK3zpztsi.tyre', 0, 1),
-(13, 'Usuario1', '$2y$10$42roZu8oMWbYqIFD3U691ODvHVUQ/JhHMItQ7fRm4en/uw3cLnTwy', 0, 1),
-(14, 'Usuario2', '$2y$10$KQN00b2WNs.94Nfa/pJvLuVZu7qmkaKQeRmR9tB9bOddsh1rm9VDW', 0, 1);
+(13, 'Usuario1', '$2y$10$42roZu8oMWbYqIFD3U691ODvHVUQ/JhHMItQ7fRm4en/uw3cLnTwy', 0, 0),
+(14, 'Usuario2', '$2y$10$KQN00b2WNs.94Nfa/pJvLuVZu7qmkaKQeRmR9tB9bOddsh1rm9VDW', 0, 1),
+(15, 'test', '$2y$10$Vx6zzAIWLDZuHlNEJwO.8OGzahryjXKwWS.BAvovELeFSuzuNPcQ2', 0, 1);
 
 --
 -- Índices para tablas volcadas
@@ -238,7 +245,7 @@ ALTER TABLE `libros`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Restricciones para tablas volcadas
