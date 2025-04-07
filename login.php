@@ -1,5 +1,10 @@
 <?php
 include('./src/CRUD.php');
+session_start();
+
+$_SESSION['carrito'] = array(); // Inicializar el carrito si no existe
+
+
 
 $conn = conectar(); // Conexión a la base de datos
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -19,8 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $fila = $consulta_preparada->fetch(PDO::FETCH_ASSOC);
 	    
 	    if(password_verify($contra, $fila['Contraseña'])){
-                echo "Bienvenido, " . $usuario . "!";
+                $_SESSION['usuario'] = $usuario; // Guardar el usuario en la sesión
+                $_SESSION['logged_in'] = true;  // Indicar que el usuario ha iniciado sesión
                 header("Location: index.php");
+                exit;
             } else {
                 $errores[] = "Contraseña incorrecta. Por favor, inténtalo de nuevo.";
             }

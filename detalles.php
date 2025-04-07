@@ -1,4 +1,11 @@
 <?php
+
+session_start();
+
+if (!isset($_SESSION['carrito'])) {
+    $_SESSION['carrito'] = array();
+}
+
 include('./src/CRUD.php');
 
 // Verifica si se pasa un id_libro en la URL
@@ -6,7 +13,7 @@ if (isset($_GET['id_libro'])) {
     $id_libro = intval($_GET['id_libro']); // Sanitiza el parámetro recibido
     $libro = obtenerLibroPorId($id_libro); // Función para obtener los detalles del libro
 
-    if ($libro) {
+    if (is_object($libro)) {
         // Muestra los detalles del libro
         echo "<br><br><br><h1>" . htmlspecialchars($libro->get_titulo()) . "</h1>";
         echo "<p>Autor: " . htmlspecialchars($libro->get_autor()) . "</p>";
@@ -38,9 +45,30 @@ if (isset($_GET['id_libro'])) {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="navbar color-4">
-        <button href="./index.php" class="nav-btn raleway-regular color-4">WANNABOOK</button>
+    <div class="navbar color-4 d-flex align-items-center justify-between">
+        <a href="./" class="nav-btn raleway-regular color-4 no-link-style">WANNABOOK</a>
+        <div class="nav-group d-flex align-items-center">
+            <?php if (!$_SESSION['logged_in']): ?>
+                <a href="login.php" class="nav-btn raleway-regular color-4 no-link-style">Login</a>
+            <?php else: ?>
+                <a href="perfil.php" class="nav-btn raleway-regular color-4 no-link-style">Perfil</a>
+            <?php endif; ?>
+            <a href="carrito.php" class="nav-btn raleway-regular color-4 no-link-style" style="position: relative;">
+                <i class="fas fa-shopping-cart"></i>
+                <?php 
+                $total_items = 0;
+                foreach ($_SESSION['carrito'] as $item) {
+                    $total_items += $item['cantidad'];
+                }
+                if ($total_items > 0): ?>
+                    <span style="position: absolute; top: -5px; right: -5px; background-color: red; color: white; border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; font-size: 12px;">
+                        <?php echo $total_items; ?>
+                    </span>
+                <?php endif; ?>
+            </a>
+        </div>
     </div>
+
     <div style="margin-top: 80px; padding: 0 20px;">
         <div class="align-center d-flex">
             <p class="section-title raleway-regular">Más vendidos</p>

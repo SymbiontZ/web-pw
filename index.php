@@ -1,7 +1,39 @@
 <?php
+
+    session_start();
+
+    if (!isset($_SESSION['carrito'])) {
+        $_SESSION['carrito'] = array();
+    }
+    if (!isset($_SESSION['logged_in'])) {
+        $_SESSION['logged_in'] = false;
+    }
+    if (!isset($_SESSION['usuario'])) {
+        $_SESSION['usuario'] = null;
+    }
+
     include ('./src/CRUD.php');
 
     define('IMAGEN_DIR', './data');
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['añadir']) && isset($_POST['id_libro'])) {
+            $id = (int) $_POST['id_libro'];
+            $encontrado = false;
+
+            foreach ($_SESSION['carrito'] as $index => $item) {
+                if ($item['id'] === $id) {
+                    $_SESSION['carrito'][$index]['cantidad']++;
+                    $encontrado = true;
+                    break;
+                }
+            }
+
+            if (!$encontrado) {
+                $_SESSION['carrito'][] = ['id' => $id, 'cantidad' => 1];
+            }
+        }
+    }
 
     function mostrar_libros($orden): void{
         /** @var Libro[] $lista */
@@ -35,9 +67,12 @@
                 echo "          <a class='size-18 bold black-text no-link-style text-multiline-truncate' href='https://example.com'>" . htmlspecialchars(strtoupper($libro->get_titulo())) . "</a>";
                 echo "          <p class='size-14 low-margin-v'>" . htmlspecialchars($libro->get_autor()) . "</p>";
                 echo "          <p class='size-16 bold text-right mt-20 mb-1'>" . number_format($libro->get_precio(), 2) . "€ </p>";
-                echo "          <button class='hover-btn jetbrains-mono-regular color-3'>";
-                echo "              <i class='fas fa-cart-plus icon'></i>";
-                echo "          </button>";
+                echo "          <form method='post' action=''>";
+                echo "              <input type='hidden' name='id_libro' value='" . htmlspecialchars($libro->get_id()) . "'>";
+                echo "              <button type='submit' name='añadir' class='hover-btn jetbrains-mono-regular color-3'>";
+                echo "                  <i class='fas fa-cart-plus icon'></i>";
+                echo "              </button>";
+                echo "          </form>";
                 echo "      </div>";
                 echo "  </div>";
             }
@@ -47,7 +82,6 @@
         }
 
     }
-
 ?>
 
 <!DOCTYPE html>
@@ -60,9 +94,28 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="navbar color-4">
+    <div class="navbar color-4 d-flex align-items-center justify-between">
         <a href="./" class="nav-btn raleway-regular color-4 no-link-style">WANNABOOK</a>
-
+        <div class="nav-group d-flex align-items-center">
+            <?php if (!$_SESSION['logged_in']): ?>
+                <a href="login.php" class="nav-btn raleway-regular color-4 no-link-style">Login</a>
+            <?php else: ?>
+                <a href="perfil.php" class="nav-btn raleway-regular color-4 no-link-style">Perfil</a>
+            <?php endif; ?>
+            <a href="carrito.php" class="nav-btn raleway-regular color-4 no-link-style" style="position: relative;">
+                <i class="fas fa-shopping-cart"></i>
+                <?php 
+                $total_items = 0;
+                foreach ($_SESSION['carrito'] as $item) {
+                    $total_items += $item['cantidad'];
+                }
+                if ($total_items > 0): ?>
+                    <span style="position: absolute; top: -5px; right: -5px; background-color: red; color: white; border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; font-size: 12px;">
+                        <?php echo $total_items; ?>
+                    </span>
+                <?php endif; ?>
+            </a>
+        </div>
     </div>
 
     <div style="margin-top: 80px; padding: 0 20px;">

@@ -10,7 +10,7 @@
     top: 0;
     position: fixed;
     z-index: 1000; /* Para asegurarse de que esté por encima de otros elementos */
-    padding: 5px 0;
+    padding: 15px 0;
 }
 
 .nav-btn {

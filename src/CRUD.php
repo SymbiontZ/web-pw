@@ -64,14 +64,13 @@
             LEFT JOIN compras co ON l.id_libro = co.id_libro
             LEFT JOIN usuarios u ON co.id_usuario = u.id
             WHERE l.disponible = 1 AND u.esActivo = 1
-            GROUP BY l.id_libro = :id_libro
+            GROUP BY l.id_libro
             ORDER BY ventas DESC";
         $base = conectar(); // Conexión a la base de datos
         if (!$base) {
             return []; // Retorna un array vacío si no se pudo conectar
         }
         $stmt = $base->prepare($sql);
-        $stmt->bindParam(':id_libro', $id_libro, PDO::PARAM_INT);
         $stmt->execute();
 
         $libros = [];
@@ -97,20 +96,19 @@
 
     function devolverLibrosAlfabeto(): array
     {
-        $sql = "SELECT l.id_libro, l.titulo, l.autor, l.precio, l.paginas, l.fecha, l.imagen, l.sinopsis, l.editorial, l.disponible = 1, GROUP_CONCAT(c.categoria) AS categorias
+        $sql = "SELECT l.id_libro, l.titulo, l.autor, l.precio, l.paginas, l.fecha, l.imagen, l.sinopsis, l.editorial, GROUP_CONCAT(c.categoria) AS categorias
             FROM libros l
             LEFT JOIN libros_categorias lc ON l.id_libro = lc.id_libro
             LEFT JOIN categorias c ON lc.id_categoria = c.id_categoria
             LEFT JOIN compras co ON l.id_libro = co.id_libro
             WHERE l.disponible = 1
-            GROUP BY l.id_libro = :id_libro
+            GROUP BY l.id_libro
             ORDER BY l.titulo ASC";
         $base = conectar(); // Conexión a la base de datos
         if (!$base) {
             return []; // Retorna un array vacío si no se pudo conectar
         }
         $stmt = $base->prepare($sql);
-        $stmt->bindParam(':id_libro', $id_libro, PDO::PARAM_INT);
         $stmt->execute();
 
         $libros = [];
