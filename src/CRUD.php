@@ -60,7 +60,7 @@
             LEFT JOIN libros_categorias lc ON l.id_libro = lc.id_libro
             LEFT JOIN categorias c ON lc.id_categoria = c.id_categoria
             LEFT JOIN compras co ON l.id_libro = co.id_libro
-            WHERE l.disponible
+            WHERE l.disponible = 1
             GROUP BY l.id_libro
             ORDER BY l.fecha DESC"; // Cambia el orden a descendente
         $base = conectar(); // Conexión a la base de datos

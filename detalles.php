@@ -29,8 +29,8 @@ function mostrar_libro($libro): void {
                 <p><strong>Autor:</strong> ' . htmlspecialchars($libro->get_autor(), ENT_QUOTES, 'UTF-8') . '</p>
                 <p><strong>Precio:</strong> ' . number_format($libro->get_precio(), 2) . '€</p>
                 <p><strong>Páginas:</strong> ' . htmlspecialchars($libro->get_numPags(), ENT_QUOTES, 'UTF-8') . '</p>
-                <p><strong>Fecha de publicación:</strong> ' . htmlspecialchars($libro->get_fecha(), ENT_QUOTES, 'UTF-8') . '</p>
-                <p><strong>Categorías:</strong> ' . htmlspecialchars(implode(', ', $libro->get_categorias()), ENT_QUOTES, 'UTF-8') . '</p>
+                <p><strong>Fecha de publicación:</strong> ' . htmlspecialchars(format_date($libro->get_fecha()), ENT_QUOTES, 'UTF-8') . '</p>
+                <p><strong>Categorías:</strong> ' . htmlspecialchars(implode(', ', $libro->get_categorias())) . '</p>
                 <p><strong>Editorial:</strong> ' . htmlspecialchars($libro->get_editorial(), ENT_QUOTES, 'UTF-8') . '</p>
                 <p><strong>Sinopsis:</strong> ' . htmlspecialchars($libro->get_sinopsis(), ENT_QUOTES, 'UTF-8') . '</p>
                 <form method="post" action="">

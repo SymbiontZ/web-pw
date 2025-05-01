@@ -6,7 +6,7 @@ function render_navbar() {
     echo '
     <div class="navbar color-4 d-flex align-center justify-between">
         <div class="nav-left">
-            <a href="'.HOME_DIR.'" class="nav-btn raleway-regular color-4 no-link-style">WANNABOOK</a>
+            <a href="/home" class="nav-btn raleway-regular color-4 no-link-style">WANNABOOK</a>
         </div>
         <div class="nav-center">
             <form method="POST" action="busqueda.php">
@@ -16,12 +16,16 @@ function render_navbar() {
                 </button>
             </form>
         </div>
-        <div class="nav-right">';
+        <div class="nav-right">
+    </div>';
     
     if (!$_SESSION["logged_in"]) {
-        echo '<a href="login.php" class="nav-btn raleway-regular color-4 no-link-style">Login</a>';
+        echo '<a href="login.php" class="nav-btn raleway-regular color-4 no-link-style">
+                <i class="fa-solid fa-arrow-right-to-bracket"></i>';
     } else {
-        echo '<a href="perfil.php" class="nav-btn raleway-regular color-4 no-link-style">Perfil</a>';
+        echo '<a href="perfil.php" class="nav-btn raleway-regular color-4 no-link-style">
+                <i class="fas fa-user"></i> 
+            </a>';
     }
 
     echo '
@@ -57,4 +61,30 @@ function render_navbar() {
         </div>
     </div>';
 }
+
+function format_date($date): string{
+    $date = explode("-", $date);
+
+    return intval($date[2]) . " de " . month_name(intval($date[1])) . " de " . $date[0];
+}
+
+function month_name($num): string{
+    $months = [
+        1 => "Enero",
+        2 => "Febrero",
+        3 => "Marzo",
+        4 => "Abril",
+        5 => "Mayo",
+        6 => "Junio",
+        7 => "Julio",
+        8 => "Agosto",
+        9 => "Septiembre",
+        10 => "Octubre",
+        11 => "Noviembre",
+        12 => "Diciembre"
+    ];
+    return $months[$num] ?? '';
+}
+
+
 ?>
