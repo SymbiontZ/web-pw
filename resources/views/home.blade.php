@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WANNABOOK | Inicio </title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    @vite('resources/css/style.css')
+</head>
+<body>
+    <x-navbar />
+    <div style="margin-top: 80px;"></div>
+    <x-book-list :titulo="'Más vendidos'" :libros="$libroOrdCompras"/> 
+    <x-book-list :titulo="'Más recientes'" :libros="$libroOrdFecha"/>
+    <x-book-list :titulo="'De la A-Z'" :libros="$libroOrdAbc"/>
+    
+</body>
+</html>
+
