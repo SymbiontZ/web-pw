@@ -10,3 +10,5 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/libro/{id}', [LibroController::class, 'show'])->name('libros.show');
 
 Route::get('/libro', [LibroController::class, 'filter'])->name('libros.filter');
+
+Route::post('/reviews', [ReviewController::class, 'guardar'])->name('reviews.guardar');

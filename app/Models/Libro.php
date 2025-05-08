@@ -47,4 +47,9 @@
                         ->selectRaw('id_libro, SUM(cantidad) as total')
                         ->groupBy('id_libro');
         }
+
+        public function reviews()
+        {
+            return $this->hasMany(Review::class, 'libro_id');
+        }
     }

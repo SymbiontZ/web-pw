@@ -28,6 +28,11 @@
                 </form> -->
             </div>
         </div>
-        
+
+        <div class="mt-5 p-4 max-w" style="margin-left: 20px; margin-right: 20px;">
+        <h2 class="text-xl font-semibold mb-3">Reseñas de lectores</h2>
+        <x-review :libro="$libro" />
+        </div>
+     
 </body>
 </html>
