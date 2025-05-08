@@ -5,7 +5,7 @@
 
     @if($type === 'home')
     <div class="nav-center">
-        <form method="GET" action="{{ route('libros.index') }}" onsubmit="return validarBusqueda()">
+        <form method="GET" action="{{ route('libros.filter') }}" onsubmit="return validarBusqueda()">
             <input type="text" name="busqueda" placeholder="Buscar por título, autor..." id="busquedaInput" class="search-input">
                 <button type="submit" class="search-btn color-4">
                     <i class="fas fa-search"></i>

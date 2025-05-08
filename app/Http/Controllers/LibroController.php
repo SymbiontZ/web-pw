@@ -11,9 +11,9 @@ class LibroController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function filter(Request $request)
     {  
-        $query = Libro::query();
+        $query = Libro::disponibles();
         $busqueda = $request->input('busqueda');
 
         if (!empty($busqueda)) {
@@ -25,7 +25,7 @@ class LibroController extends Controller
 
         $libros = $query->get();
 
-        return view('libros.index', compact('busqueda', 'libros'));
+        return view('libros.filter', compact('busqueda', 'libros'));
     }
 
     /**
@@ -49,7 +49,7 @@ class LibroController extends Controller
      */
     public function show(int $id)
     {
-        $libro = Libro::findOrFail($id);  
+        $libro = Libro::disponibles()->findOrFail($id);  
         
         return view('libros.show', compact('libro'));
     }

@@ -22,6 +22,15 @@
             
         ];
 
+        protected $casts = [
+            'disponible' => 'boolean',
+        ];
+
+        public function scopeDisponibles($query)
+        {
+            return $query->where('disponible', true);
+        }
+
         public function comprasTotal()
         {
             return $this->hasMany(Compra::class, 'id_libro')
