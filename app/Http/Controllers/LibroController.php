@@ -23,6 +23,21 @@ class LibroController extends Controller
             });
         }
 
+        switch ($request->orden) {
+            case 'abc':
+                $query->orderBy('titulo');
+                break;
+            case 'fecha':
+                $query->orderBy('fecha', 'desc');
+            case 'compras':
+                $query->withSum('compras', 'cantidad')
+                ->orderByDesc('compras_sum_cantidad');
+                break;
+            default:
+                
+                break;
+        }
+
         $libros = $query->get();
 
         return view('libros.filter', compact('busqueda', 'libros'));

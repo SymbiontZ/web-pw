@@ -31,6 +31,16 @@
             return $query->where('disponible', true);
         }
 
+        public function compras()
+        {
+            return $this->hasMany(Compra::class, 'id_libro');
+        }
+
+        public function categorias()
+        {
+            return $this->belongsToMany(Categoria::class, 'libros_categoria', 'id_libro', 'id_categoria');
+        }
+
         public function comprasTotal()
         {
             return $this->hasMany(Compra::class, 'id_libro')

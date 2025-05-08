@@ -9,7 +9,23 @@
 </head>
 <body>
     <x-navbar />
-    <div style="margin-top: 80px; padding: 0 20px;">
+
+    <div style="margin-top: 80px; padding: 0 20px;"">
+        <form method="GET" action="{{ route('libros.filter') }}" class="filtros-form">
+            <input type="hidden" name="busqueda" value="{{ request('busqueda') }}">
+            
+            <label for="orden"><strong>Ordenar por</strong></label>
+            <select name="orden" id="orden">
+                <option value="">-- Selecciona --</option>
+                <option value="abc" {{ request('orden') == 'abc' ? 'selected' : '' }}>Nombre (A-Z)</option>
+                <option value="fecha" {{ request('orden') == 'fecha' ? 'selected' : '' }}>Fecha de publicación</option>
+                <option value="compras" {{ request('orden') == 'compras' ? 'selected' : '' }}>Más vendidos</option>
+            </select>
+
+            <button type="submit">Aplicar filtros</button>
+        </form>
+    </div>
+    <div style="margin-top: 20px; padding: 0 20px;">
         <h1>Resultados de la búsqueda para '{{ $busqueda }}' </h1>
         @if(count($libros)>0)
         <div class="product-grid">

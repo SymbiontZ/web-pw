@@ -19,6 +19,7 @@
                 <p><strong>Precio:</strong> {{ number_format($libro->precio, 2) }}€ </p>
                 <p><strong>Editorial:</strong> {{ $libro->editorial }} </p>
                 <p><strong>Sinopsis:</strong> {{ $libro->sinopsis }} </p>
+                <p><strong>Categorias: </strong> {{ $libro->categorias }}</p>
                 <!-- <form method="post" action="">
                     <input type="hidden" name="id_libro" value="' . htmlspecialchars($libro->get_id(), ENT_QUOTES, 'UTF-8') . '">
                     <button type="submit" name="añadir" class="color-3 book-cart-btn">
@@ -27,5 +28,6 @@
                 </form> -->
             </div>
         </div>
+        
 </body>
 </html>

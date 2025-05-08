@@ -24,6 +24,6 @@
     @endif
     
     <div class="nav-right">
-        <!-- Puedes agregar íconos o enlaces aquí -->
+        
     </div>
 </div>
