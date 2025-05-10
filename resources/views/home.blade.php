@@ -13,6 +13,16 @@
     <x-book-list :titulo="'Más vendidos'" :libros="$libroOrdCompras"/> 
     <x-book-list :titulo="'Más recientes'" :libros="$libroOrdFecha"/>
     <x-book-list :titulo="'De la A-Z'" :libros="$libroOrdAbc"/>
+
+    <a href="#" 
+    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+    class="text-red-500 hover:underline">
+    Cerrar sesión
+    </a>
+
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
     
 </body>
 </html>
