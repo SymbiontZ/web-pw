@@ -8,18 +8,14 @@ use Illuminate\View\Component;
 
 class review extends Component
 {
-    /**
-     * Create a new component instance.
-     */
-    public function __construct()
-    {
-        //
-    }
+    public $libro;
 
-    /**
-     * Get the view / contents that represent the component.
-     */
-    public function render(): View|Closure|string
+    public function __construct($libro)
+    {
+        $this->libro = $libro;
+    }
+   
+    public function render(): \Illuminate\Contracts\View\View|Closure|string
     {
         return view('components.review');
     }

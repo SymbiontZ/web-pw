@@ -33,3 +33,5 @@ Route::get('/register', [RegisteredUserController::class, 'create'])
 // Ruta para procesar el registro
 Route::post('/register', [RegisteredUserController::class, 'store'])
     ->middleware('guest');
+
+Route::post('/reviews', [ReviewController::class, 'guardar'])->name('reviews.guardar');
