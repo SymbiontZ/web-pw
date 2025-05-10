@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+    if (!Schema::hasTable('reviews')) {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
             $table->integer('libro_id');
@@ -19,12 +20,12 @@ return new class extends Migration
             $table->integer('puntuacion');
             $table->timestamps();
 
-            //Clave foránea
+            // Clave foránea
             $table->foreign('libro_id')->references('id_libro')->on('libros')->onDelete('cascade');
             $table->foreign('usuario')->references('Usuario')->on('usuarios')->onDelete('cascade');
         });
     }
-
+}
     /**
      * Reverse the migrations.
      */

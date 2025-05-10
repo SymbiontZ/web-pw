@@ -10,7 +10,7 @@ class ReviewController extends Controller
     public function guardar(Request $request)
     {
         $validated = $request->validate([
-            'libro_id' => 'required|exists:libros,id', 
+            'libro_id' => 'required|exists:libros,id_libro', 
             'usuario' => 'required|string|max:255',
             'review' => 'required|string|max:1000', 
             'puntuacion' => 'required|integer|between:1,5',
@@ -18,7 +18,7 @@ class ReviewController extends Controller
 
         Review::create([
             'libro_id' => $validated['libro_id'],
-            'uduarios' => $validated['usuarios'],
+            'usuario' => $validated['usuario'],
             'review' => $validated['review'], 
             'puntuacion' => $validated['puntuacion'], 
         ]);
