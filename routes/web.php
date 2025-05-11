@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/libro/{id}', [LibroController::class, 'show'])->name('libros.show');
 
@@ -33,5 +33,15 @@ Route::get('/register', [RegisteredUserController::class, 'create'])
 // Ruta para procesar el registro
 Route::post('/register', [RegisteredUserController::class, 'store'])
     ->middleware('guest');
+
+Route::get('/carrito', [CarroController::class, 'index'])
+    ->middleware('auth')
+    ->name('carro.index');
+
+Route::post('/carrito/agregar', [CarroController::class, 'agregar'])->name('carro.agregar');
+
+Route::post('/carrito/eliminar', [CarroController::class, 'eliminar'])->name('carro.eliminar');
+
+Route::post('/carrito/vaciar', [CarroController::class, 'vaciar'])->name('carro.vaciar');
 
 Route::post('/reviews', [ReviewController::class, 'guardar'])->name('reviews.guardar');

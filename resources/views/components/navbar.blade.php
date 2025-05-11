@@ -1,6 +1,6 @@
 <div class="navbar navbar-{{ $type }} color-4 d-flex align-center justify-between">
     <div class="nav-left">
-        <a href="/" class="nav-btn raleway-regular color-4 no-link-style">WANNABOOK</a>
+        <a href=" {{ route('home') }}" class="nav-btn raleway-regular color-4 no-link-style">WANNABOOK</a>
     </div>
 
     @if($type === 'home')
@@ -24,14 +24,22 @@
     @endif
     
     <div class="nav-right">
+        
+
         @if(auth()->check())
-        <a href="{{ route('') }}" class="nav-btn raleway-regular color-4 no-link-style">
+        <a href="{{ route('home') }}" class="nav-btn raleway-regular color-4 no-link-style">
             <i class="fas fa-user"></i> 
+        </a>
+        <a href="{{ route('logout') }}" class="nav-btn raleway-regular color-4 no-link-style"
+            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </a>
                 
         @else
         <a href="{{ route('login') }}" class="nav-btn raleway-regular color-4 no-link-style">
             <i class="fa-solid fa-arrow-right-to-bracket"></i>
-        @endif
         </a>
+        @endif
+
     </div>
 </div>
