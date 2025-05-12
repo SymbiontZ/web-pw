@@ -20,9 +20,8 @@ return new class extends Migration
             $table->integer('puntuacion');
             $table->timestamps();
 
-            // Clave foránea
+            // Clave foránea para libro_id
             $table->foreign('libro_id')->references('id_libro')->on('libros')->onDelete('cascade');
-            $table->foreign('usuario')->references('Usuario')->on('usuarios')->onDelete('cascade');
         });
     }
 }
