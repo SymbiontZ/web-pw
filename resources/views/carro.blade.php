@@ -49,7 +49,7 @@
                 <div style="text-align: center; margin-top: 20px;">
                     <form method="POST" action="{{ route('carro.vaciar') }}" style="display: inline;">
                         @csrf
-                        <button type="submit" class="cart-btn color-2">
+                        <button type="submit" class="cart-btn color-3">
                             Vaciar Carrito
                         </button>
                     </form>
