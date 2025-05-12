@@ -1,0 +1,42 @@
+.cart-count {
+    background-color: #5f1854; /* Cambia este color al que prefieras */
+    color: #ffffff; /* Color del texto */
+    font-size: 12px; /* Tamaño del texto */
+    font-weight: bold; /* Texto en negrita */
+    border-radius: 50%; /* Hace que sea un círculo */
+    width: 20px; /* Ancho del círculo */
+    height: 20px; /* Alto del círculo */
+    display: flex; /* Centra el texto */
+    align-items: center; /* Centra verticalmente */
+    justify-content: center; /* Centra horizontalmente */
+    position: absolute; /* Posición relativa al ícono */
+    top: -5px; /* Ajusta la posición vertical */
+    right: -5px; /* Ajusta la posición horizontal */
+}
+
+.cart-delete
+{
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    font-size: 20px; /* Tamaño del icono */
+    margin-left: 10px; /* Espacio entre el icono y el texto */
+    background: none; /* Sin fondo */
+    border: none; /* Sin borde */
+}
+
+.cart-add
+{
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    font-size: 20px; /* Tamaño del icono */
+    margin-left: 10px; /* Espacio entre el icono y el texto */
+    background: none; /* Sin fondo */
+    border: none; /* Sin borde */
+}
+
+.cart-btn
+{
+    color: #fff; 
+    padding: 10px 20px; 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer;
+}

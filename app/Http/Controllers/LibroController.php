@@ -13,25 +13,45 @@ class LibroController extends Controller
      */
     public function filter(Request $request)
     {  
-        $query = Libro::disponibles();
+        $query = Libro::disponibles()->with('autor');
         $busqueda = $request->input('busqueda');
 
         if (!empty($busqueda)) {
             $query->where(function ($q) use ($busqueda) {
                 $q->where('titulo', 'LIKE', "{$busqueda}%")
-                  ->orWhere('autor', 'LIKE', "{$busqueda}%");
+                  ->orWhereHas('autor', function ($q) use ($busqueda) {
+                  $q->where('nombre', 'LIKE', "{$busqueda}%");
+                });
             });
         }
 
         switch ($request->orden) {
-            case 'abc':
+            case 'abcAsc':
                 $query->orderBy('titulo');
                 break;
-            case 'fecha':
+            case 'abcDesc':
+                $query->orderBy('titulo', 'desc');
+                break;
+            
+            case 'fechaAsc':
                 $query->orderBy('fecha', 'desc');
-            case 'compras':
+                break;
+            case 'fechaDesc':
+                $query->orderBy('fecha');
+                break;
+            case 'precioAsc':
+                $query->orderBy('precio');
+                break;
+            case 'precioDesc':
+                $query->orderBy('precio', 'desc');
+                break;
+            case 'comprasAsc':
                 $query->withSum('compras', 'cantidad')
                 ->orderByDesc('compras_sum_cantidad');
+                break;
+            case 'comprasDesc':
+                $query->withSum('compras', 'cantidad')
+                ->orderBy('compras_sum_cantidad');
                 break;
             default:
                 
@@ -64,7 +84,7 @@ class LibroController extends Controller
      */
     public function show(int $id)
     {
-        $libro = Libro::disponibles()->findOrFail($id);  
+        $libro = Libro::disponibles()->with('autor')->findOrFail($id);  
         
         return view('libros.show', compact('libro'));
     }
@@ -91,5 +111,14 @@ class LibroController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function toggle($id)
+    {
+        $libro = Libro::findOrFail($id); // Buscar el libro por ID
+        $libro->disponible = !$libro->disponible; // Alternar el estado de disponibilidad
+        $libro->save(); // Guardar los cambios en la base de datos
+
+        return redirect()->back()->with('success', 'Disponibilidad del libro actualizada correctamente.');
     }
 }

@@ -9,7 +9,11 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/libro/{id}', [LibroController::class, 'show'])->name('libros.show');
 
-Route::get('/libro', [LibroController::class, 'index'])->name('libros.index');
+Route::get('/libro', [LibroController::class, 'filter'])->name('libros.index');
+
+Route::post('libro/disponibilidad/{id}', [LibroController::class, 'toggle'])
+    ->middleware('auth')
+    ->name('libros.toggle');
 
 // Ruta para mostrar el formulario de login
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])
@@ -36,7 +40,7 @@ Route::post('/register', [RegisteredUserController::class, 'store'])
 
 Route::get('/carrito', [CarroController::class, 'index'])
     ->middleware('auth')
-    ->name('carro.index');
+    ->name('carro');
 
 Route::post('/carrito/agregar', [CarroController::class, 'agregar'])->name('carro.agregar');
 
@@ -44,4 +48,16 @@ Route::post('/carrito/eliminar', [CarroController::class, 'eliminar'])->name('ca
 
 Route::post('/carrito/vaciar', [CarroController::class, 'vaciar'])->name('carro.vaciar');
 
+Route::post('/carrito/completar', [CarroController::class, 'completar'])
+    ->middleware('auth')
+    ->name('carro.completar');
+
 Route::post('/reviews', [ReviewController::class, 'guardar'])->name('reviews.guardar');
+
+Route::get('/perfil/{id}', [ProfileController::class, 'index'])
+    ->middleware('auth')
+    ->name('perfil.index');
+
+Route::get('/autor/{id}', [ProfileController::class, 'index'])->name('autor');
+
+Route::post('/usuario/disponibilidad/{id}', [UserController::class, 'toggle'])->name('usuarios.toggle');

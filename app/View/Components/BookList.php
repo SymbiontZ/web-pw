@@ -13,11 +13,13 @@ class BookList extends Component
      */
     public $titulo;
     public $libros;
+    public $orden;
 
-    public function __construct($titulo, $libros)
+    public function __construct($titulo, $libros, $orden)
     {
         $this->titulo = $titulo;
         $this->libros = $libros;
+        $this->orden = $orden;
     }
 
     /**

@@ -24,10 +24,15 @@
     @endif
     
     <div class="nav-right">
-        
+        <a href="{{ route('carro') }}" class="nav-btn color-4 no-link-style" style="position: relative;">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count">
+                {{ array_sum(array_column(session('cart', []), 'cantidad')) }}
+            </span>
+        </a>
 
         @if(auth()->check())
-        <a href="{{ route('home') }}" class="nav-btn raleway-regular color-4 no-link-style">
+        <a href="{{ route('perfil.index', ['id' => Auth()->id()]) }}" class="nav-btn raleway-regular color-4 no-link-style">
             <i class="fas fa-user"></i> 
         </a>
         <a href="{{ route('logout') }}" class="nav-btn raleway-regular color-4 no-link-style"
@@ -36,7 +41,7 @@
         </a>
                 
         @else
-        <a href="{{ route('login') }}" class="nav-btn raleway-regular color-4 no-link-style">
+        <a href="{{ route('register') }}" class="nav-btn raleway-regular color-4 no-link-style">
             <i class="fa-solid fa-arrow-right-to-bracket"></i>
         </a>
         @endif

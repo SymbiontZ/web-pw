@@ -10,9 +10,9 @@
 <body>
     <x-navbar />
     <div style="margin-top: 80px;"></div>
-    <x-book-list :titulo="'Más vendidos'" :libros="$libroOrdCompras"/> 
-    <x-book-list :titulo="'Más recientes'" :libros="$libroOrdFecha"/>
-    <x-book-list :titulo="'De la A-Z'" :libros="$libroOrdAbc"/>
+    <x-book-list :titulo="'Más vendidos'" :libros="$libroOrdCompras" :orden="'compraAsc'"/> 
+    <x-book-list :titulo="'Más recientes'" :libros="$libroOrdFecha" :orden="'fechaAsc'"/>
+    <x-book-list :titulo="'De la A-Z'" :libros="$libroOrdAbc" :orden="'abcAsc'"/>
 
     <a href="#" 
     onclick="event.preventDefault(); document.getElementById('logout-form').submit();"

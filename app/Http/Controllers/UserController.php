@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\User;
+
 class UserController extends Controller
 {
     /**
@@ -70,5 +72,14 @@ class UserController extends Controller
     public function login()
     {
         
+    }
+
+    public function toggle($id)
+    {
+        $usuario = User::findOrFail($id);
+        $usuario->esActivo = !$usuario->esActivo; // Alternar el estado de habilitación
+        $usuario->save();
+
+        return redirect()->back()->with('success', 'Estado del usuario actualizado correctamente.');
     }
 }

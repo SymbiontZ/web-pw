@@ -9,9 +9,10 @@
         protected $table = 'libros';
         protected $primaryKey = 'id_libro';
         public $incrementing =true;
+        public $timestamps = false;
         protected $fillable = [
             'titulo',
-            'autor',
+            'id_autor',
             'precio',
             'paginas',
             'fecha',
@@ -51,5 +52,10 @@
         public function reviews()
         {
             return $this->hasMany(Review::class, 'libro_id');
+        }
+
+        public function autor()
+        {
+            return $this->belongsTo(Autor::class, 'id_autor');
         }
     }

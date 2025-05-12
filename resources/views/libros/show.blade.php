@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> {{ $libro->titulo }} - {{ $libro->autor }}</title>
+    <title> {{ $libro->titulo }} - {{ $libro->autor->nombre }}</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     @vite('resources/css/style.css')
 </head>
@@ -15,7 +15,7 @@
             </div>
             <div class="book-info" style="flex: 1; max-width: 60%; padding: 10px;">
                 <h1 class="section-title"> {{ $libro->titulo }}</h1>
-                <p><strong>Autor:</strong> {{ $libro->autor }}</p>
+                <p><strong>Autor:</strong> {{ $libro->autor->nombre }}</p>
                 <p><strong>Precio:</strong> {{ number_format($libro->precio, 2) }}€ </p>
                 <p><strong>Editorial:</strong> {{ $libro->editorial }} </p>
                 <p><strong>Sinopsis:</strong> {{ $libro->sinopsis }} </p>

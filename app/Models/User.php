@@ -13,6 +13,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     public $timestamps = false;
+    protected $primaryKey = 'id'; 
 
     protected $table = 'usuarios';
     /**
@@ -53,4 +54,11 @@ class User extends Authenticatable
     {
         return $query->where('esActivo', true);
     }
+
+    public function autor() 
+    {
+        return $this->hasOne(Autor::class, 'id_autor', 'id');
+    }
+
+    
 }

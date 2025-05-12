@@ -3,6 +3,8 @@
 @import './fonts.css';
 @import './margins.css';
 @import './palette.css';
+@import './cart.css';
+
 
 .navbar {
     overflow: hidden;
@@ -312,4 +314,12 @@ input:focus {
         margin-top: 10px;
         text-align: center;
     }
+}
+
+.filter-btn{
+   color: #fff; 
+    padding: 5px 10px; 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
 }

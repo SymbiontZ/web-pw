@@ -1,17 +1,17 @@
 <div class="px-20 mt-20">
     <div class="align-center d-flex">
         <p class="section-title raleway-regular">{{ $titulo }}</p>
-        <a class="ml-2 mt-5 no-link-style color-f-2 raleway-regular" href="/">Ver más</a>
+        <a class="ml-2 mt-5 no-link-style color-f-2 raleway-regular" href="{{ route('libros.index', ['busqueda' => '','orden' => $orden]) }}">Ver más</a>
     </div>
     <hr>
     @if (count($libros)>0)
         <div class="product-list">
         @foreach ($libros as $libro)
             <div class="product-container justify-center max-w color-1">
-                <a href="{{ route('libros.show', ['id' => $libro->id_libro]) }}"> <!--route('detalles', ['id_libro' => $libro->id])-->
+                <a href="{{ route('libros.show', ['id' => $libro->id_libro]) }}">
                     <img class="justify-center d-flex max-w"
                          src="{{ asset('images/' . $libro->imagen) }}"
-                         alt="{{ $libro->titulo }} - {{ $libro->autor }}">
+                         alt="{{ $libro->titulo }} - {{ $libro->autor->nombre }}">
                 </a>
                 <hr>
                 <div>
@@ -19,17 +19,22 @@
                        href="/libro/{{ $libro->id_libro }}">
                         {{ strtoupper($libro->titulo) }}
                     </a>
-                    <p class="size-14 low-margin-v">{{ $libro->autor }}</p>
+                    <p class="size-14 low-margin-v">{{ $libro->autor->nombre }}</p>
                     <p class="size-16 bold text-right mt-20 mb-5">
                         {{ number_format($libro->precio, 2) }}€
                     </p>
-                    <form method="POST" action="/"> <!-- route('añadir.carrito') -->
+                    <form method="POST" action="{{ route('carro.agregar') }}">
                         @csrf
-                        <input type="hidden" name="id_libro" value="{{ $libro->id }}">
-                        <button type="submit" name="añadir" class="hover-btn jetbrains-mono-regular color-3">
+                        <input type="hidden" name="producto[id]" value="{{ $libro->id_libro }}">
+                        <input type="hidden" name="producto[titulo]" value="{{ $libro->titulo }}">
+                        <input type="hidden" name="producto[autor]" value="{{ $libro->autor->nombre }}">
+                        <input type="hidden" name="producto[precio]" value="{{ $libro->precio }}">
+                        <input type="hidden" name="producto[portada]" value="{{ $libro->imagen }}">
+                        <button type="submit" class="hover-btn color-3">
                             <i class="fas fa-cart-plus icon"></i>
                         </button>
                     </form>
+
                 </div>
             </div>
         @endforeach
