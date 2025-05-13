@@ -7,25 +7,25 @@
 
             <!-- Name -->
             <div class="low-margin-v">
-                <input type="text" name="name" required class="search-input w-full" 
+                <input type="text" name="name" required class="search-input" style="width: 350px; margin-bottom: 10px;" 
                        placeholder="Nombre completo" value="{{ old('name') }}">
             </div>
 
             <!-- Email -->
             <div class="low-margin-v">
-                <input type="email" name="email" required class="search-input w-full" 
+                <input type="email" name="email" required class="search-input" style="width: 350px; margin-bottom: 10px;" 
                        placeholder="Correo electrónico" value="{{ old('email') }}">
             </div>
 
             <!-- Password -->
             <div class="low-margin-v">
-                <input type="password" name="password" required class="search-input w-full" 
+                <input type="password" name="password" required class="search-input" style="width: 350px; margin-bottom: 10px;" 
                        placeholder="Contraseña">
             </div>
 
             <!-- Confirm Password -->
             <div class="low-margin-v">
-                <input type="password" name="password_confirmation" required class="search-input w-full" 
+                <input type="password" name="password_confirmation" required class="search-input" style="width: 350px; margin-bottom: 10px;" 
                        placeholder="Confirmar contraseña">
             </div>
 

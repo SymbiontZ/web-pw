@@ -27,7 +27,7 @@
                 <option value="comprasDesc" {{ request('orden') == 'comprasDesc' ? 'selected' : '' }}>Menos vendidos</option>
             </select>
 
-            <button type="submit" class="filter-btn color-3">Aplicar filtros</button>
+            <button type="submit" class="filter-btn color-f-1 color-3">Aplicar filtros</button>
         </form>
     </div>
     <div style="margin-top: 20px; padding: 0 20px;">
